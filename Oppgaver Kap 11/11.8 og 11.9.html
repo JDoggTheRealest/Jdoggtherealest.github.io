@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgave Kapitell 11</title>
+</head>
+
+<body>
+	<h1>Favoritt Frukt</h1>
+	<p id="Antall">Antall frukter:</p>
+	<p>Ps: Rekkefølgen er viktig</p>
+	<div class="container">
+		<input type="checkbox"><label>Fersken</label>
+		<input type="checkbox"><label>Eple</label>
+		<input type="checkbox"><label>Nektarin</label>
+		<br>
+		<input type="checkbox"><label>Druer</label>
+		<input type="checkbox"><label>Pærer</label>
+		<input type="checkbox"><label>Avokado</label>
+		<br>
+		<input type="checkbox"><label>Ananas</label>
+		<input type="checkbox"><label>Mango</label>
+		<input type="checkbox"><label>Kiwi</label>
+		<br>
+		<input type="checkbox"><label>Banan</label>
+		<input type="checkbox"><label>Appelsin</label>
+		<input type="checkbox"><label>Melon</label>
+	</div>
+	<h2>Dine favoritter:</h2>
+	<p id="Fruktkurv"></p>
+	
+	<script>
+		//Denne oppgaven er i to deler 11.8 og 11.9
+		
+		var fruktSamling = [];
+		
+		function add() {
+			//Lagrer navne på frukten
+			var fruktNavn = this.nextElementSibling.innerText;
+			
+			
+			//Sjekker om boksen er krysset av eller ikke
+			if(this.checked) {
+				//Sjekker om under 10 frukter
+				if(Antall < 10) {
+					//Legger til fruktnavne i Arrayen om krysset av, og øker antallet med 1
+					fruktSamling.push(fruktNavn);
+					Antall++;
+					
+				}else {
+				
+					//Varsler om at ikke kan legge inn fler enn 10
+					alert("Maks grensen er 10 frukter");
+					
+					//Fjerner krysset
+					this.checked = false;
+				}
+					
+			} else {
+				//Fjerner frukten som har blitt krysset av, og minker med 1
+				fruktSamling.splice(fruktSamling.indexOf(fruktNavn),1);
+				Antall--;
+			} 
+			
+			//Oppdaterer antall frukt
+			AntallEl.innerHTML = "Antall frukter: " + Antall + "/10";
+		
+			//Lagrer Fruktkurven, og gjør om fruksamlingen til en string, slik at teksten kan manipuleres
+			var Fruktkurv = document.getElementById("Fruktkurv");
+			var tekst = String(fruktSamling);
+			
+			//Bytter ut komma med  ", " slik at får mellomrom mellom hver ting. Må bruke /,/g for erstate alle
+				tekst = tekst.replace(/,/g,", ");
+				Fruktkurv.innerHTML = tekst;
+		}
+		
+		//Lagrer antall frukter, og elemente som sier antalle
+		var Antall = 0;
+		var AntallEl = document.getElementById("Antall");
+		
+		//Skriver antall frukt i listen
+		AntallEl.innerHTML = "Antall frukter: " + Antall + "/10";
+		
+		//Lagrer container
+		var Container = document.getElementsByClassName("container");
+		
+		//Lagrer inputene
+		var InputEl = document.querySelectorAll("input[type='checkbox']");
+		
+		//Leger til eventlistner på hvert element
+		for(i = 0; i < InputEl.length; i++) {
+			InputEl[i].addEventListener("change",add);
+		}
+	</script>
+</body>
+</html>

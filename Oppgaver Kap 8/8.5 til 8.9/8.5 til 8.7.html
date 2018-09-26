@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kap 8</title>
+<style>
+	body {
+    	background-color: #323232;
+    	font-family: "Century Gothic", Arial, sans-serif;
+    	font-size: 14px;
+    	color: #f2f2f2;	
+  	}
+  	img:hover {
+    	cursor: pointer;
+  	}
+</style>
+</head>
+
+<body>
+	<h1>Monty Hall</h1>
+	<p>Hvilken dør vil du velge?</p>
+	<img src="rod.png" width="227" height="324" alt="Dør">
+	<img src="gronn.png" width="227" height="324" alt="Dør">
+	<img src="blaa.png" width="227" height="324" alt="Dør">
+	<p id="melding"></p>
+	<script>
+		//Oppgave 8.5 til 8.7
+		
+		//Funksjon som gir random tall mellom 2 verdier
+		function randomFrom(a,b) {
+			return Math.floor(Math.random()*(b - a + 1) + a);
+		}
+		
+		//Lagrer bildene i en array
+		var bilder = document.getElementsByTagName("img");
+		
+		//Lagrer melding paragrafen
+		var melding = document.getElementById("melding");
+		
+		//Lager en for loop som kjører gjennom alle bildene
+		for(i = 0; i < bilder.length; i++) {
+			//Legger til en eventlistner som sjekker om bildet er trykket på 
+			bilder[i].addEventListener("click", sjekk);
+			//Legger til en id 
+			bilder[i].id = i;
+		}
+		
+		//Bruker funksjonen ovenfor til å velge et tall fra 0 til antall bilder - 1 (siden bruk av array)
+		var riktig = randomFrom(0,(bilder.length - 1));
+		var forsok = true;
+		
+		//Lager en funksjon som kjører når bildene trykkes på
+		function sjekk() {
+			//Sjekker om forsok er true/brukt opp
+			if(forsok) {
+				
+				//Setter forsok til false
+				forsok = false;
+				
+				//Sjekker om bilde er riktig
+				if(this.id == riktig) {
+					
+					//Endrer bildet src til bildet av en bil
+					this.src = "bil.png";
+					melding.innerHTML = "Du vant en ny bil";
+					
+				} else {
+					
+					//Endrer bildet src til bildet av en geit
+					this.src = "geit.png";
+					melding.innerHTML = "Prøv igjen";
+					
+				}
+			} else {
+				
+				//Sender ut melding 
+				melding.innerHTML = "Du har brukt opp din sjanse";	
+				
+			}
+		}
+		
+	</script>
+</body>
+</html>

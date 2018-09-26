@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 7</title>
+
+<style>
+	/*Oppgave 7.10*/
+	.red {
+		border:solid red 3px;
+	}	
+	
+	/*Oppgave 7.12*/
+	.blue {
+		border:solid blue 3px;
+	}
+</style>
+
+</head>
+
+<body>
+	<h1>Dette er min Overskrift</h1>
+	<p>Dette er første paragrafet</p>
+	<p>Press f tasten for endre innholde</p>
+	<a id="lenkeNRK"></a>
+	<a id="lenkeTV2"></a>
+	
+	<script>
+		//Oppgave 7.8
+		
+		//Lagrer Overskriften og avsnittene
+		var overskrift = document.querySelector("h1");
+		var avsnitt = document.querySelectorAll("p");
+		
+		//Legger til en handlings sjekker
+		window.addEventListener("keydown", press, false);
+ 		
+		//Lager en funksjon, som kjører når personen trykker på f tasten
+		function press(a) {
+			//Sjekker om f tasten med keyCode 70 blir trykket
+			if (a.keyCode == "70") {
+				//Endrer på innholdet i avsnittene og overskriften
+				overskrift.innerHTML = "Du trykket f";
+				avsnitt[0].innerHTML = "Respekt";
+				avsnitt[1].innerHTML = "Alt innholde ble endret";
+			}
+		}
+		
+		//Oppgave 7.9
+		
+		//Lager en ny organisert liste og lagrer body elemente
+		var olistEl = document.createElement("ol");
+		var bodyEl = document.querySelector("body");
+		
+		//Leger til ol på bunden av body tagen
+		bodyEl.appendChild(olistEl);
+		
+		
+		//Oppgave 7.11
+		
+		//Lager et liste element
+		var listEl = document.createElement("li");
+		
+		//Gir classen red, og legger til tekst inni elemente
+		listEl.setAttribute("class", "red");
+		listEl.innerHTML = "trykk meg for å fjerne eller legge til borderen min :D";
+		
+		//Leger til liste elemente
+		olistEl.appendChild(listEl);
+		
+		
+		//Oppgave 7.13
+		
+		//Gir overskriften blue klassen
+		overskrift.className = "blue";
+		
+		
+		//Oppgave 7.14
+		
+		//Funktion for å fjerne eller legge til kanten rundt elemente
+		function toggle() {
+			//Sjekker om har border
+			if(hasBorder) {
+				//Fjerner border, og setter booleanen til false
+				listEl.removeAttribute("class");
+				hasBorder = false;
+			} else {
+				//Legger til classen, og setter boolean til true
+				listEl.className = "red";
+				hasBorder = true;
+			}
+		}
+		
+		//Variabel for om listen har en kant
+		var hasBorder = true;
+		
+		//Sjekker om listen er trykket på, for å kjøre funksjonen toggle
+		listEl.addEventListener("click", toggle);
+		
+		
+		//Oppgave 7.15
+		
+		//Lagrer lenken for NRK og TV2
+		var lenkeNRK = document.getElementById("lenkeNRK");
+		var lenkeTV2 = document.querySelector("#lenkeTV2");
+		
+		//Setter inn navne til lenken
+		lenkeNRK.innerHTML = "NRK";
+		lenkeTV2.innerHTML = "TV2";
+		
+		
+		//Oppgave 7.16
+		
+		//Legger til href og target til NRK linken
+		lenkeNRK.setAttribute("href", "http://www.nrk.no");
+		lenkeNRK.setAttribute("target", "_blank");
+		
+		
+		//Oppgave 7.17
+		
+		//Legger til lenke og gjør så lenken åpnes i et nytt vindu
+		lenkeTV2.href = "http://www.tv2.no";
+		lenkeTV2.target = "blank";
+		
+	</script>
+</body>
+</html>

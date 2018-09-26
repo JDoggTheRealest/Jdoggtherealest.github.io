@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kap 8</title>
+<style>
+	/*Oppgave 8.1*/
+	body {
+		font-family: "Century Gothic", Ariel, sans-serif;
+		font-size:14px;
+	}
+	p {
+		background-color:#F05A3F;
+		padding:20px;
+	}
+	p:hover {
+		cursor: pointer;
+	}
+	.gul {
+		border:3px solid yellow;
+	}
+	
+	/*Oppgave 8.3*/
+	.blue {
+		border:3px solid blue;
+	}
+</style>
+</head>
+
+<body>
+	<p id="avsnitt"> Trykk på meg! </p>
+	
+	<script>
+		//Oppgave 8.1
+		
+		//Kode fra boka
+		var avsnittEl = document.querySelector("#avsnitt");
+		avsnittEl.addEventListener("click", nytekst);
+		
+		function nytekst() {
+			avsnittEl.innerHTML = "Du trykket på meg!"
+		}
+		
+		//Oppgave 8.2
+		
+		//Leger til en eventlistner som sjekker om trykker
+		avsnittEl.addEventListener("click", border);
+		
+		//Funskjon som legger til gul border rundt avsnitt som blir trykket på
+		function border() {
+			//Sjekker om har gul border
+			if(avsnittEl.className == "gul") {
+				//Endrer class name til blue om den er gul fra før
+				avsnittEl.className = "blue";
+			} else {
+				//Kode fra 8.2
+				avsnittEl.className = "gul";
+			}
+		}
+		
+		//Oppgave 8.4 
+		
+		//Oppdaterte border functionen
+	</script>
+</body>
+</html>

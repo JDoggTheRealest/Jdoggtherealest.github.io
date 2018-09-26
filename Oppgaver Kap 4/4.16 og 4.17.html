@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 4</title>
+</head>
+
+<body>
+	<script>
+		/*Denne koden svarer på både 4.16 og 4.17*/
+		
+		//min egen funksjon som gir et random tall mellom grense a og b
+		function tilfeldigFra(a,b) {
+			if(a < b) {
+				//Math.random velger et random tall mellom 0 og 1, og kan ikke være null eller 1
+				//Så ganges det med differansen mellom a og b + 1
+				//Siden vi runer ned må vi plusse på 1
+				//Så plusser vi på a for å få tall innenfor rekkeviden vi valgte, dette gjør at det også kan brukes  for negative tall
+				//Bruker return for returnere tallet
+				return Math.floor(Math.random()*(b - a + 1) + a);
+			} else {
+				return "Grensene må gå fra minst til størst";
+			}
+		}
+		
+		function flereTilfeldigeFra(a,b,c) {
+			//c = antall
+			if(c > 0) {
+				//bruker for loop/løkke for å få mer en et random tall mellom grensen a, b
+				for(i = 0; i < c; i++) {
+					//bruker tilfeldigFra() funksjonen og skriver til konsolen
+					console.log(tilfeldigFra(a,b));	
+				}
+			} else {
+				//om c er mindre enn eller lik 0, får man feilmelding
+				return "Funksjonen aksepterer ikke tall som er mindre enn 1";
+			}
+		}
+		
+		//gir en forklaring på hvordan bruke funskjonene
+		console.log("For velge et tilfeldig tall mellom 2 grenser bruk:");
+		console.log("tilfeldigFra(grense 1, grense 2)");
+		console.log("For velge flere tilfeldige tall mellom 2 grenser bruk:");
+		console.log("flereTilfeldigeFra(grense 1, grense 2, antall)");
+		console.log("Ps: grensene må gå fra minst til størst");
+	</script>
+</body>
+</html>
