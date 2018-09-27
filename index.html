@@ -3,12 +3,46 @@
 <head>
 <meta charset="utf-8">
 <title>Main page</title>
+<style>
+	iframe {
+		width: 60vw;
+		margin: auto;
+		padding: 0;
+	}
+</style>
 </head>
 
 <body>
 	<h1>Welcome to my webpage!</h1>
 	<p>Im new to github, so dont expect the best, if anyone is actually reading this.</p>
 	<p><strong>Please note:</strong> Most of my websites are made in Norwegian, as this is my main language.</p>
+	<ul class="links">
+		<li class="link" id="4">Kapitell 4</li>
+		<li class="link" id="6">Kapitell 6</li>
+		<li class="link" id="7">Kapitell 7</li>
+		<li class="link" id="8">Kapitell 8</li>
+		<li class="link" id="11">Kapitell 11</li>
+	</ul>
+	<iframe style="display:none; height: 600px;" src="Sammling/blank.html"></iframe>
+	<script>
+		var iframeEl = document.getElementsByTagName("iframe");
+		var link = document.getElementsByClassName("link");
+		var links = document.getElementsByClassName("links");
+		
+		var innerdoc = iframeEl[0].contentDocument;
+		
+		for(i=0; i < link.length; i++) {
+			link[i].addEventListener("click", linker);
+		}
+		
+		function linker(a) {
+			iframeEl[0].style.display = "block";
+			links[0].style.display = "none";
+		
+			var id = this.id; 
+			iframeEl[0].src = "Sammling/Kap" + id +"index.html";
+		}
+	</script>
 </body>
 </html>
 
