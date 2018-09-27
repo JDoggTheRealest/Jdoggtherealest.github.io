@@ -1,0 +1,253 @@
+@charset "utf-8";
+/* CSS Document */
+html {
+	background-color:#f6f6f6;
+}
+
+body{
+	display:flex;
+	flex-wrap:wrap;
+	width:960px;
+	margin:10px auto;
+	background:white;
+}
+
+/*Header*/
+.header {
+	display:flex;
+	flex-wrap:wrap;
+	width:960px;
+	height:160px;
+	margin:0;
+	background-color:#71637D;
+}
+
+.logo {
+	width:130px;
+	padding:15px;
+	margin:0;
+}
+
+.title {
+	width:640px;
+	padding-top:25px;
+	margin:0;
+	text-align:center;
+	font-size:90px;
+	color:white;
+}
+
+.homebutton {
+	width:100px;
+	padding:30px;
+}
+
+.homebutton:hover {
+	width:110px;
+	padding:25px;
+}
+
+/*Middle*/
+.mid {
+	display:flex;
+}
+
+/*Content*/
+.content {
+	width:748px;
+	padding:0 25px;
+}
+
+.formel {
+	background-color:#FFB23F;
+	width:60%;
+	margin: 10px auto;
+	text-align:center;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:15px;
+}
+
+.eksempel {
+	background-color:#49FF59;
+	width:80%;
+	margin:10px auto;
+	padding:10px 25px;
+	box-sizing: border-box;
+	border:solid 1px #0048FF;
+}
+
+.eksempel p {
+	padding:0 10px;
+}
+
+.fasit {
+	width:80%;
+  	margin:25px auto;
+  	background-color:#49FF59;
+  	display:block;
+  	padding:25px 0;
+  	text-align:center;
+}
+
+.fasit:hover{
+	opacity: .75;	
+}
+
+.fasit:active{
+  	background-color:white;
+	opacity: 1;	
+}
+
+.fasit:active a{
+	color:black;
+	text-align:center;
+  	text-decoration:none;
+	visibility: visible;
+}
+
+.fasit a{
+	text-align:center;
+  	text-decoration:none;
+  	visibility: hidden;
+}
+
+.fasit .nevner{
+	width:10px;
+}
+
+.left{
+	text-align:left;
+}
+
+.teller {
+	margin-bottom:10px;
+	text-align: center;
+}
+
+.nevner {
+	width:150px; 
+	margin:0 auto 20px auto; 
+	padding-top:10px;
+	text-align:center;
+	border-top:2px solid black; 
+}
+
+.overskrift {
+	padding-left:25px;
+	font-size:x-large;
+}
+
+.overskrift h1 {
+	margin-bottom:0;
+}
+
+.kapitler {
+	list-style-type:none;
+	font-size:25px;
+	margin-top:10px;
+}
+
+.kapitler li {
+	margin:12px 0;
+}
+
+a {
+	text-decoration: none;
+	color:#282135;
+}
+
+a:hover {
+	color:#06CF1D;
+}
+
+.content p{
+	font-size:22px;
+	padding:0 25px;
+}
+
+table, tr{
+	border-collapse: collapse;
+	margin:auto;
+}
+
+th, td{
+	width:150px;
+	height:30px;
+	border:solid 1px black;
+	text-align:center;
+}
+
+th{
+	background-color:lightblue;
+}
+
+td{
+	background-color:white;
+}
+
+.content img{
+	display:block;
+	margin:auto;
+}
+
+/*Menu*/
+.side {
+	width:200px;
+	padding:5px;
+	margin:25px 0;
+	border-left:solid 2px #CDB5CD;
+}
+
+.quickmenu {
+	width:200px;
+	top:25px;
+	position:sticky;
+	position: -webkit-sticky;
+}
+
+.quickmenu h2 {
+	padding-left:25px;
+	margin:2px;
+}
+
+.quickmenu li {
+	padding-bottom:5px;
+	list-style-type: none;
+	
+}
+
+.quickmenu a{
+	font-size:17px;
+	display:block;
+    width:120px;
+}
+
+.quickmenu ul {
+	padding:0 20px;
+}
+
+/*bottom*/
+.bottom {
+	display:flex;
+	flex-wrap:wrap;
+	width:100%;
+	background-color:black;
+	color:white;
+}
+
+.bottom .blink {
+	width:33%;
+	padding:15px 0;
+	margin:auto;
+	text-align:center;
+}
+
+.blink a {
+	color:white;
+}
+
+.blink a:hover {
+	text-decoration:underline;
+}
+/*CSS by Johannes Mørkrid*/
