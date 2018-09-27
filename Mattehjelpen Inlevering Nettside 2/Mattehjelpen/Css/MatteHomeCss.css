@@ -94,17 +94,17 @@ body{
 	opacity: .75;	
 }
 
-.fasit:active{
+/*.fasit:active{
   	background-color:white;
 	opacity: 1;	
-}
+}*/
 
-.fasit:active a{
+/*.fasit:active a{
 	color:black;
 	text-align:center;
   	text-decoration:none;
 	visibility: visible;
-}
+}*/
 
 .fasit a{
 	text-align:center;
@@ -157,7 +157,7 @@ a {
 	color:#282135;
 }
 
-ul a:hover {
+ul li a:hover {
 	color:#06CF1D;
 }
 
@@ -250,4 +250,4 @@ td{
 .blink a:hover {
 	text-decoration:underline;
 }
-/*CSS by Johannes Mørkrid*/
+/*CSS by JDogg*/
