@@ -1,37 +1,121 @@
 @charset "utf-8";
 /* CSS Document */
-
-h1 {
-	text-align:center;
+html {
+	background-color:white;
+	margin:0;
 }
-
-ul {
+	
+body {
+	background-color:#F2F2F2;
+	max-width:70vw;
+	margin:auto auto;
+	box-sizing:border-box;
+	min-height:100vh;
+	min-width: 980px;
+}
+	
+iframe {
+	width: 60vw;
+	margin: auto;
+	padding: 0;
+}
+	
+.menuicon {
+	width:7vw;
+	position:fixed;
+	bottom:10px;
+	right:10px;
+}
+	
+.logo {
+	width:60%;
+	padding:10px 0 0 10px;
+	-webkit-user-drag:none;
+}
+	
+.quickmenu {
+	background-color:#FFB516;
+	width:100%;
+}
+	
+.quickmenu ul {
+	background-image:url("../Images/test.png");
+    background-size: 100%;
+	margin:0;
 	width:100%;
 	padding:0 10px;
 	box-sizing: border-box;
 	display:flex;
 	flex-wrap: wrap;
 }
+	
+.quickmenu li {
+	display:block;
+	width:24%;
+	margin:10px 0.5%;
+	text-align:center;
+	color:#5000FF;
+	font-size:17px;
+}
 
-li {
+.quickmenu a {
+	color:#5000FF;
+	font-size:17px;
+	text-decoration: none;
+}
+
+.quickmenu a:hover {
+	color:white;
+	cursor:pointer;
+}
+
+.header {
+	-webkit-user-select: none;
+	width:70vw;
+	position:fixed;
+	background-color: #F2F2F2;
+	top:0;
+	height:auto;
+	z-index:20;
+	min-width: 980px;
+}
+
+h1, h2 {
+	text-align:center;
+}
+
+.pagecollection {
+	width:100%;
+	padding:0 10px;
+	box-sizing: border-box;
+	display:flex;
+	flex-wrap: wrap;
+	border-top:solid #BFBFBF 3px;
+	border-bottom:solid #BFBFBF 3px;
+	background-image:url(../Images/array.png);
+	background-size:50%;
+}
+
+.pagecollection li {
 	display:block;
 	width:32%;
-	margin:10px 0.66%;
+	margin:20px 0.66%;
 	padding:0;
 	background-color:dodgerblue;
 	border-radius: 15px;
-	list-style: none;	
+	list-style: none;
+	text-align:center;
 }
 	
-li:hover {
+.pagecollection li:hover {
 	background-color:lightseagreen;
 }
 	
-li:active {
+.pagecollection li:active {
 	background-color:slategray;
 }
 	
-a {
+.pagecollection a {
 	display:block;
 	width:100%;
 	padding:25px;
@@ -40,4 +124,27 @@ a {
 	text-decoration: none;
 	color:black;
 }
-	
+
+.middle::-webkit-scrollbar { 
+    display: none; 
+}
+
+.middle {
+	position:fixed;
+	width:70vw;
+	overflow-y: scroll;
+}
+
+h2 {
+	padding:10px 0;
+}
+
+.background6 {
+	background-image:url("../Images/htmlcss.png");
+	background-size:17%;
+}
+
+.background7 {
+	background-image:url("../Images/dom.png");
+	background-size:17%;
+}
