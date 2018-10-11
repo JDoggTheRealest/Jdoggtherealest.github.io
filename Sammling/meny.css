@@ -21,10 +21,15 @@ iframe {
 }
 	
 .menuicon {
-	width:7vw;
 	position:fixed;
 	bottom:10px;
 	right:10px;
+	z-index:300;
+	-webkit-user-drag:none;
+}
+
+.menuicon:hover {
+	cursor:pointer;
 }
 	
 .logo {
@@ -147,4 +152,35 @@ h2 {
 .background7 {
 	background-image:url("../Images/dom.png");
 	background-size:17%;
+}
+
+.sidemenu {
+	display:none;
+	position: fixed;
+	right:0;
+	background-color:#282828;
+	box-sizing: border-box;
+	z-index:200;
+	border-left:solid 2px #898989;
+	border-right:solid 2px #898989;
+}
+
+.sidemenu ul{
+	display:block;
+	padding:0;
+	border-top:solid 1px #898989;
+	border-bottom:solid 1px #898989;
+}
+
+.sidemenu li{
+	list-style:none;
+	text-align:center;
+	padding: 10px;
+	border-top:solid 1px #898989;
+	border-bottom:solid 1px #898989;
+}
+
+.sidemenu a{
+	color:white;
+	text-decoration: none;
 }
