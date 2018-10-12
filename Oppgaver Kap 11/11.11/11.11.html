@@ -3,9 +3,64 @@
 <head>
 <meta charset="utf-8">
 <title>Oppgaver Kapitell 11</title>
+<style>
+	
+	table {
+		border-collapse:collapse;
+		margin:auto;
+	}
+	
+	td {
+		width:18vh;
+		height:18vh;
+		border:2px black solid;
+		border-collapse:collapse;
+	}
+	
+	td:hover {
+		background-color:rgba(236,202,202,0.20);
+		cursor:pointer;
+	}
+	
+	h1, h3 {
+		text-align:center;
+		user-select:none;
+	}
+	img {
+		margin:auto;
+		display:block;
+		-webkit-user-drag: none;
+		user-select:none;
+	}
+	
+	.spiller {
+		border:2px black solid;
+	}
+	
+</style>
 </head>
 
 <body>
+	<h1>Tre På Rad!</h1>
+	<table>
+		<tr class="1">
+			<td class="1"></td>
+			<td class="2"></td>
+			<td class="3"></td>
+		</tr>
+		<tr class="2">
+			<td class="1"></td>
+			<td class="2"></td>
+			<td class="3"></td>
+		</tr>
+		<tr class="3">
+			<td class="1"></td>
+			<td class="2"></td>
+			<td class="3"></td>
+		</tr>
+	</table>
+	<h3>Tur:</h3>
+	<img class="spiller" src="sirkel.png">
 	<script>
 		//lager Arrayen for holde styr på brikkene
 		var trePaaRad = [
@@ -19,11 +74,22 @@
 			return a % 1 == 0;
 		}
 		
+		//Lagrer bilde elemente
+		var img = document.getElementsByClassName("spiller");
+		
+		//Lagrer alle td elementene
+		var td = document.getElementsByTagName("td");
+		
+		//Legger til en eventlistner for trykk
+		for(i = 0; i < td.length; i++) {
+			td[i].addEventListener("click", trykkLegg);
+		}
+		
 		var bruker = "o";
 		//Selve spillet
 		function legg(x,y) {
 			//Fjerner gammele meldinger
-			console.clear();
+			//console.clear();
 			
 			//Sjekker om tallene er innenfor brette
 			if((x < 1 || x > 3) || (y < 1 || y > 3)) {
@@ -42,6 +108,9 @@
 					for(i = 0; i < 3; i++) {
 						console.log(trePaaRad[i]);	
 					}
+					
+					//Oppdaterer spillet
+					oppdater();
 					
 					//Sjekker om spilleren vinner
 					var vinn = false;
@@ -64,7 +133,7 @@
 						}
 						
 						//Sjekker skrått
-						else if((trePaaRad[i][0] == trePaaRad[1][1]) && (trePaaRad[1][1] == trePaaRad[2][2-i]) && (trePaaRad[i][0] != "_")) {
+						else if((trePaaRad[i][0] == trePaaRad[1][1]) && (trePaaRad[1][1] == trePaaRad[2-i][2]) && (trePaaRad[i][0] != "_")) {
 							
 							vinn = true;
 							
@@ -73,7 +142,7 @@
 							
 					}
 					
-					if(vinn == "true") {
+					if(vinn == true) {
 						//Om vinn er true kjøres denne koden
 						
 						//Starter brette på nytt
@@ -103,8 +172,10 @@
 						//Endrer bruker for hver runde
 						if(bruker == "o") {
 							bruker = "x";
+							img[0].src = "kryss.png";
 						} else {
 							bruker = "o";
+							img[0].src = "sirkel.png";
 						}
 						
 						return bruker + " sin tur!";
@@ -148,6 +219,47 @@
 		console.log("Velkommen til tre på rad, for å legge en brike bruk kommandoen legg(x,y)");
 		console.log("Om du er ny til spillet bruk kommandoen regler()");
 		console.log("Lykke til");
+		
+		function trykkLegg() {
+			//Lagrer boksens x og y posisjon
+			var boksx = Number(this.className);
+			var boksy = Number(this.parentElement.className);
+			
+			//Bruker funksjonen legg(x,y)
+			legg(boksx, boksy);
+		}
+		
+		function oppdater() {
+			
+			//Kjører en 2 dimensjonal for loop
+			for(i = 0; i < 3; i++) {
+				for(j = 0; j < 3; j++) {
+					
+					//Sjekker om td har et bilde 
+					if (td[(i*3)+j].childElementCount == 1) {
+						//Fjerner bilde
+						td[(i*3)+j].removeChild(td[(i*3)+j].firstChild);
+					}
+					
+					//Sjekker om td ikke er tom
+					if(trePaaRad[i][j] != "_") {
+						//Lager et nytt bilde element
+						var klossImg = document.createElement("img");
+						
+						//Sjekker hvilke kloss som er lagt, for å så legge inn src til klossens bilde
+						if(trePaaRad[i][j] == "o") {
+							klossImg.src = "sirkel.png";
+						} else if(trePaaRad[i][j] == "x") {
+							klossImg.src = "kryss.png";
+						}
+						
+						//Legger til bilde elemente inni tden 
+						td[(i*3)+j].appendChild(klossImg);
+					} 
+				}
+			}
+			
+		}
 	</script>
 </body>
 </html>
