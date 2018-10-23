@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgave Kap 11</title>
+
+<style>
+	
+	table td {
+		border:1px solid black;
+		width:50px;
+		height:50px;
+		padding:0;
+	}
+	
+	table {	
+		border-collapse: collapse;
+	}
+	
+	.spill {
+		display:none;	
+	}
+	
+	.bilde2 {
+		height:101px;
+	}
+	
+	.bilde3 {
+		height:152px;
+	}
+	
+	.bilde4 {
+		height:203px;
+	}
+	
+	.bilde5 {
+		height:254px;
+	}
+	
+	img {
+		cursor:nesw-resize;
+		width:50px;
+		position:absolute;
+		margin-top:-25px;
+	}
+</style>
+
+</head>
+
+<body>
+	<div class="intro">
+		<h1>Velkommen til senk skipet!</h1>
+		<button onClick="start()" >Start spillet</button>
+	</div>
+
+	<div class="spill">
+		<h1 class="infoboks"></h1>
+		<table class="brett"></table>
+		
+		<div class="tempmeny">
+			<button id="next" onClick="lagre()">Neste spiller</button>
+			<hr>
+			<div class="klosser">
+				<img class="bilde2" src="1x2.png" draggable="true" ondragstart="dra(event)" id="test1">
+				<img class="bilde3" src="1x3.png" draggable="true" ondragstart="dra(event)" id="test2">
+				<img class="bilde3" src="1x3.png" draggable="true" ondragstart="dra(event)" id="test3">
+				<img class="bilde4" src="1x4.png" draggable="true" ondragstart="dra(event)" id="test4">
+				<img class="bilde5" src="1x5.png" draggable="true" ondragstart="dra(event)" id="test5">
+			</div>
+		</div>	
+		
+	</div>
+	
+	<script>
+		/*Oppstart*/
+		
+			//Lagrer brettet
+			var brett = document.querySelector(".brett");
+
+			//Lager arrayer for kordinat systemet til hver bruker
+			var kordinat = [[],[]];
+		
+		/*Generer brettet*/
+			
+			//To dimensjonel for-løkke	
+			
+			for(var i = 0; i < 10; i++) {
+				
+			//Lager et nytt tr element
+			var nyTr = document.createElement("tr");
+			
+			//Legger til den nye tr
+			brett.appendChild(nyTr);
+				
+				for(var j = 0; j < 10; j++) {
+					
+					//Legger til blank space i arrayene
+					kordinat[0].push("_");
+					kordinat[1].push("_");
+					
+					//Lager et nytt td element
+					var nyTd = document.createElement("td");
+					
+					//Legger til eventlisntere
+					nyTd.addEventListener("dragover", sjekkDrop);
+					nyTd.addEventListener("drop", drop);
+					
+					//Legger til unik id
+					nyTd.id = (i*10 + j);
+					
+					//Legger til det nye td elemente i tr-en
+					nyTr.appendChild(nyTd);
+					
+				}
+				
+			}
+		
+		/*Starter spillet*/
+			
+			//Lagrer intro og spill elementene
+			var intro = document.querySelector(".intro");
+			var spill = document.querySelector(".spill");
+			
+			//Funksjon for å starte spillet
+			function start() {
+				//Endrer displayen
+				intro.style.display = "none";
+				spill.style.display = "block";
+			}
+		
+		/*Legge skip*/
+			
+			//Lagrer alle bilder i en array
+			var img = document.getElementsByTagName("img");
+			
+			//Lagrer en høyde og bredde variabel
+			var sizeH = 10;
+			var sizeW = 10;
+			
+			//Lager en variabel for boksen som dras
+			var currentBox;
+			
+			//Legger til en eventlistner på alle bilder som sjekker om brukeren trykker på et bilde
+			for(var i = 0; i < img.length; i++) {
+				img[i].addEventListener("click", rot);	
+			}
+			
+			//Lager en funksjon for å dra bilder
+			function dra(ev) {
+				//Setter dataen som skal overføres
+				ev.dataTransfer.setData("text", ev.target.id);
+				
+				//Finner høyden og bredden til bilde som dras 
+				sizeW = (ev.target.clientWidth % 50) + 1;
+				sizeH = (ev.target.clientHeight % 50) + 1;
+				
+				//Gir elemente som dras muligheten til å dras
+				ev.target.style.pointerEvents = "all";
+				
+				//Lagrer hvilket element som dras
+				currentBox = ev.target;
+				
+			}
+			
+			//Lager en funksjon for å sjekke om det kan droppes ned i et element
+			function sjekkDrop(ev) {
+				
+				//Gir muligheten til å kunne dropes i
+				ev.preventDefault();
+				
+				//Fjerner interaksjonen mellom brukeren og boksene slik at en boks kan dras oppå seg selv
+				for(var i = 0; i < img.length; i++) {
+					img[i].style.pointerEvents = "none";
+				}
+				
+			}	
+			
+			//Lager en funksjon for hendeleser når brukeren dropper
+			function drop(ev) {
+				
+				//Gir tilbake muligheten og dra objektene
+				for(var i = 0; i < img.length; i++) {
+					img[i].style.pointerEvents = "all";	
+				} 
+				
+				//Lagrer posisjonen til ruten som droppes i
+				var posX = Number(this.id % 10);
+				var posY = Number((this.id - (this.id % 10)) / 10);
+				
+				//Sjekker om innenfor rutenettet og ikke inni en annen boks
+				if(((posY + sizeH) <= 10) && ((posX + sizeW) <= 10) && fits(currentBox, posX, posY)) {
+					ev.preventDefault();
+					var data = ev.dataTransfer.getData("text");
+					this.appendChild(document.getElementById(data));
+				}
+			}
+			
+			//Funksjon som kjører hver gang det blir trykket i vinduet
+			window.onclick = function() {
+				//Gir tilbake muligheten og dra objektene
+				for(var i = 0; i < img.length; i++) {
+					img[i].style.pointerEvents = "all";	
+				} 
+			}
+			
+			//Lager en funksjon for å rotere klossene
+			function rot(ev) {
+				
+				//Lagrer posisjonen til ruten som droppes i
+				var posX = Number(this.parentElement.id%10);
+				var posY = Number((this.parentElement.id-(this.parentElement.id%10))/10);
+				
+				//Lagrer middlertidig høyde og bredde til boksen
+				var tempW = ev.target.clientWidth;
+				var tempH = ev.target.clientHeight;
+				
+				//Gir boksen en mulig høyde og bredder
+				sizeH = tempW % 50 + 1;
+				sizeW = tempH % 50 + 1;
+				
+				//Sjekker om innenfor rutenettet og ikke inni en annen boks etter rotert
+				if(((posY + sizeH) <= 10) && ((posX + sizeW) <= 10) && fits(ev.target, posX, posY)) {
+				
+					//Gir boksen ny høyde og bredde, basert på forrige bredden og høyden
+					ev.target.style.width = tempH + "px";
+					ev.target.style.height = tempW + "px";
+
+					//Endrer bilde til boksen
+					ev.target.src = sizeW + "x" + sizeH + ".png";
+					
+				}
+				
+			}
+			
+			//Lager en funksjon som sjekker om boksen passer
+			function fits(box, boxX, boxY) {
+				
+				for(var i = 0; i < img.length; i++) {
+					
+					//Sjekker om bildene ikke er boksen som testes
+					if(box != img[i]) {
+						
+						//Lagrer posisjon og størrelse til boksen som testes for
+						var tempX = Number(img[i].parentElement.id % 10);
+						var tempY = Number((img[i].parentElement.id - (img[i].parentElement.id % 10)) / 10);
+						var tempW = img[i].clientWidth % 50 + 1;
+						var tempH = img[i].clientHeight % 50 + 1;
+						
+						//Sjekker om boksene ikke overlapper på x-aksen
+						if((boxX >= tempX + tempW) || (tempX >= boxX + sizeW)) {
+						
+						//Sjekker om boksene ikke overlapper på y-aksen
+						} else if((tempY >= boxY + sizeH) || (boxY >= tempY + tempH)) {
+						
+						//Om overlapper returner false
+						} else {
+							return false;
+						}
+						
+					}
+				}
+				
+				//Ellers returnerer true
+				return true;
+			}
+		
+		/*Lagrer brett*/
+			
+			//Lager variabel for holde på savestaten
+			var saveState = 0;
+			
+			//Lager funksjon for lagre brett
+			function lagre() {
+				
+				//Sjekker om alle er lagt
+				if(allLaid()) {
+					
+					//Lagrer alle td elementene
+					var tdEl = document.getElementsByTagName("td");
+					
+					//Kjører gjennom alle td elementene
+					for(var i = 0; i < tdEl.length; i++) {
+						
+						//Sjekker om td har child node
+						if(tdEl[i].hasChildNodes()) {
+							
+							//Lagrer nummeret til klossen som skal lagres i arrayen
+							var tempId = tdEl[i].firstChild.id;	
+							tempId = Number(tempId.slice(4));
+							
+							//Lagrer midlertidig bredde og høyde til klossen
+							var tempW = Number(tdEl[i].firstChild.clientWidth % 50) + 1;
+							var tempH = Number(tdEl[i].firstChild.clientHeight % 50) + 1;
+							
+							//Lagrer klossen med unik id i kordinat arrayen
+							for(var x = 0; x < tempW; x++) {
+								for(var y = 0; y < tempH; y++) {
+									kordinat[saveState][i + x + (y * 10)] = tempId;
+								}
+							}
+							
+						}
+						
+					}
+					
+					//Reseter brette og klossene
+					rentBrett();
+					
+					//Endrer saveState
+					saveState++;		
+					
+					//Sjekker om saveState er større enn 1
+					if(saveState > 1) {
+						
+						//Lagrer tempmeny diven
+						var tempmeny = document.querySelector(".tempmeny");
+						
+						//Skjuler tempmeny diven
+						tempmeny.style.display = "none";
+						
+					}
+					
+				}
+				
+			}
+			
+			//Lager funksjon for sjekke om alle klossene er lagt
+			function allLaid() {
+				
+				//Kjører gjennom bildene og sjekker om alle er i td element
+				for(var i = 0; i < img.length; i++) {
+					
+					if(img[i].parentElement.nodeName != "TD") {
+						return false;
+					}
+					
+				}
+				
+				//Om alle er i td, returneres true
+				return true;
+				
+			}
+			
+			function rentBrett() {
+				
+				//Lagrer klosser diven
+				var klosser = document.querySelector(".klosser");
+				
+				//Lager en midlertidig array
+				var tempImg = [];			
+				
+				//Lagrer img elementene i den midlertidige arrayen
+				for(var i = 0; i < img.length; i++) {
+					tempImg.push(img[i]);
+				}
+				
+				//Flytter bildene i den midlertidige arrayen tilbake til klosser diven
+				for(var i = 0; i < tempImg.length; i++) {
+					klosser.appendChild(tempImg[i]);
+				}
+				
+			}
+		
+	</script>
+</body>
+</html>

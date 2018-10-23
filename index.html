@@ -25,61 +25,12 @@
 		<p>Im new to github, so dont expect the best, if anyone is actually reading this.</p>
 		<p><strong>Please note:</strong> Most of my websites are made in Norwegian, as this is my main language.</p>
 	</div>
+	
 	<img class="menuicon" src="Images/menu.png">
-	<script>
-		//Storing body and header div
-		var body = document.querySelector("body");
-		var header = document.getElementsByClassName("header");
-		
-		//Storing logo
-		var logo = document.getElementsByClassName("logo");
-		
-		//Making a boolean to keep track of what window is scrolled
-		var scrollWindow = false;
-		
-		//Checking if page is scrolled
-		window.addEventListener('scroll', pageScroll);
-		
-		//Creating a function that runs when page is scrolled
-		function pageScroll() {
-			//Update middlescroll to the pages y offest if scrolled on page
-			if(scrollWindow) {
-				middle[0].scrollTop = pageYOffset;
-			}
-			
-			//Sets boolean to be true
-			scrollWindow = true;
-		}
-		
-		//Creating a function that runs when innerContent is scrolled
-		function logoScroll() {
-			//Checks if scrolled in middle, and updates the pages scrollbar
-			if(!scrollWindow) {
-				window.scrollTo(0,middle[0].scrollTop);
-			}
-			
-			//Sets boolean to false, means scrolled in the middle, and not on main page
-			scrollWindow = false;
-		}
-		
-		var middle = document.getElementsByClassName("middle");
-		middle[0].addEventListener('scroll', logoScroll);
-		
-		middle[0].style.width = body.clientWidth + "px";
-		
-		setInterval(function() {
-    		middle[0].style.top = header[0].clientHeight + "px";
-			middle[0].style.height = (window.innerHeight - header[0].clientHeight) + "px";
-			body.style.height = (header[0].clientHeight + middle[0].scrollHeight) + "px";
-			
-			if((60 - (middle[0].scrollTop/2)) >= 20) {
-				logo[0].style.width = (60 - (middle[0].scrollTop/2)) + "%";
-			} else {
-				logo[0].style.width = "20%";
-			}
-		}, 1);
-		
-	</script>
+	
+	<div class="sidemenu"></div>
+	
+	<script type="text/javascript" src="Sammling/script.js"></script>
 </body>
 </html>
 
