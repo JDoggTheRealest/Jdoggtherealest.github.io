@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 11</title>
+</head>
+
+<body>
+	<script>
+		function skrivUt() {
+			for(i = 0; i < tall.length; i++) {
+				console.log(tall[i]);
+			}
+		}
+		
+		//Oppgave 11.1
+		console.log("11.1:");
+		
+		var tall = [2 ,4 ,6 ,8];
+		
+		skrivUt();
+		
+		//Oppgave 11.2
+		console.log("11.2:");
+		
+		tall.shift();
+		tall.pop();
+		
+		skrivUt();
+		
+		//Oppgave 11.3
+		console.log("11.3:");
+		
+		tall.splice(1,0,5);
+		
+		skrivUt();
+		
+		//Oppgave 11.4
+		console.log("11.4:")
+		
+		tall.splice(0,0,3);
+		tall.splice(tall.length, 0, 7);
+		
+		skrivUt();
+		
+		//Oppgave 11.5
+		console.log("11.5:");
+		
+		tall.splice(tall.indexOf(3),1,"tre");
+		tall.splice(tall.indexOf(5),1,"fem");
+		tall.splice(tall.indexOf(7),1,"syv");
+		
+		skrivUt();
+	</script>
+</body>
+</html>

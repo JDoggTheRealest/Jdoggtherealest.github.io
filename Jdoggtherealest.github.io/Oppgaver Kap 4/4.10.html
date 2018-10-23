@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 4</title>
+</head>
+
+<body>
+	<script>
+		//min egen funksjon som gir et random tall mellom grense a og b
+		function randomFrom(a,b) {
+			return Math.floor(Math.random()*(b - a + 1) + a);
+		}
+		
+		function toLike2() {
+			var kast1 = randomFrom(1,6);
+			var kast2 = randomFrom(1,6);
+			
+			
+			if(kast1 == kast2) {
+				console.log("Du fikk et par");
+			}
+			if((kast1 + kast2) == 7) {
+				console.log("Summen av " + kast1 + " og " + kast2 + " er 7");
+			}
+			
+			return kast1 + ", " + kast2;
+		}
+		
+		toLike2();
+	</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 4</title>
+</head>
+
+<body>
+	<script>
+		function navneskilt(navn) {
+			var dots = "****";
+			
+			//legger til ekstra stjerner for lengden på navne
+			for(i = 0; i < navn.length; i++) {
+				dots += "*";
+			}
+			
+			console.log(dots);
+			console.log("* " + navn + " *");
+			console.log(dots);
+			
+			return "Velkommen " + navn;
+		}
+		
+		navneskilt("Joahnnes");
+		navneskilt("Anders");
+	</script>
+</body>
+</html>

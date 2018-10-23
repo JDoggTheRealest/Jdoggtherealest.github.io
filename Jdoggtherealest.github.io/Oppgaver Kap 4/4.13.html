@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+</head>
+
+<body>
+	<script>
+		//min egen funksjon som gir et random tall mellom grense a og b
+		function randomFrom(a,b) {
+			return Math.floor(Math.random()*(b - a + 1) + a);
+		}	
+		
+		//spar = det man sparer på i yatzien			
+		var spar = 0;
+		
+		function behold(tall) {
+			spar = tall;
+			return "Du holder på " + tall;
+		}
+		
+		var terning = [];
+		var antallForsok = 0;
+		
+		function yatzy() {
+			
+			antallForsok++;
+			
+			//kaster terningene
+			for(i = 0; i < 5; i++) {
+				//sjekker om sparer terningen, om ikke sant kaster den på nytt
+				if(terning[i] != spar) {
+					terning[i] = randomFrom(1,6);
+					console.log(terning[i]);
+				} else {
+					console.log(terning[i] + " Beholdt")
+				}
+			}
+			
+			var sjekk = terning[0];
+			var vinn = true;
+			
+			for(i = 0; i < 5; i++) { 
+				//sjekker om alle terningene er like, om en er ulik vil den sette vinn til false
+				if(sjekk!=terning[i]) {
+					vinn = false;
+				} 
+			}
+			
+			//sjekker om vant
+			if(vinn) {
+				console.log("Gratulerer du vant på " + antallForsok);
+			}  else if(antallForsok == 3) {
+				//ellers om det er ditt tredje forsøk taper du
+				antallForsok = 0;
+				spar = 0;
+				console.log("Du tapte, prøv igjen");
+				console.log("Ps: husk og beholde på nytt");
+			}
+			
+			return "Kastet terningene";
+		}
+		
+		//regler, kommer i log også
+		console.log("Yatzy!");
+		console.log("Bruk yatzy() koden for kaste terningene, du har 3 forsøk på få 5 like!");
+		console.log("Du må bruke behold(tall) for beholde terninger, og du kan bare beholde på en type.");
+		console.log("Lykke til, og her er starts terningene dine:")
+		yatzy();
+	</script>
+</body>
+</html>

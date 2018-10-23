@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 4</title>
+</head>
+
+<body>
+	<script>
+		//min egen funksjon som gir et random tall mellom grense a og b
+		function randomFrom(a,b) {
+			return Math.floor(Math.random()*(b - a + 1) + a);
+		}	
+		
+		function treLike() {
+			//modifisert kode 4.2 fra boka
+			
+			var treLike = false;
+			var antallForsok = 0;
+		
+			while(!treLike) {
+				antallForsok++;
+			
+				var terning1 = randomFrom(1,6);
+				var terning2 = randomFrom(1,6);
+				var terning3 = randomFrom(1,6);
+
+				console.log("Fikk " + terning1 + ", " + terning2 + ", " + terning3);
+
+					if((terning1 == terning2) && (terning2 == terning3)) {
+							treLike = true;
+							console.log("Fikk tre like på " + antallForsok + " forsøk");
+					}
+				}
+				return terning1 + ", " + terning2 + ", " + terning3;
+			}
+			treLike();
+	</script>
+</body>
+</html>

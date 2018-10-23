@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 7</title>
+
+<style>
+	
+	/*Oppgave 7.18*/
+	li {
+		background-color: green;	
+	}
+	
+	li:nth-child(even) {
+		background-color: yellow;
+	}
+	
+</style>
+</head>
+
+<body>
+<script>
+	
+	//Oppgave 7.19
+	
+	//Lagrer bodien
+	var bodyEl = document.querySelector("body");
+	
+	//Lager ul, og legger det inn i body
+	var ulistEl = document.createElement("ul");
+	bodyEl.appendChild(ulistEl);
+	
+	//Lager et liste element, legger inn tekst og legger det inn i ul (Gjøres 4 ganger) 
+	var listEl = document.createElement("li");
+	listEl.innerHTML = "liste1";
+	ulistEl.appendChild(listEl);	
+
+	listEl = document.createElement("li");
+	listEl.innerHTML = "liste2";
+	ulistEl.appendChild(listEl);
+	
+	listEl = document.createElement("li");
+	listEl.innerHTML = "liste3";
+	ulistEl.appendChild(listEl);
+	
+	listEl = document.createElement("li");
+	listEl.innerHTML = "liste4";
+	ulistEl.appendChild(listEl);
+	
+	//Oppgave 7.20
+	
+	//Lager en for loop som kjører 12 ganger
+	for(i=0; i < 12; i++) {
+		//Lager et liste element med tekst og legger det inn i ul
+		listEl = document.createElement("li");
+		listEl.innerHTML = "nyliste" + (i + 1);
+		ulistEl.appendChild(listEl);
+	}
+	
+	//Oppgave 7.21
+	
+	//Lager en funksjon med argument for antall liste elementer som skal lages
+	function lagListe(a) {
+		//Lager en for loop som kjører a antall ganger
+		for(i=0; i < a; i++) {
+			//Lager et liste element med tekst og legger det inn i ul
+			listEl = document.createElement("li");
+			listEl.innerHTML = "funksjonsliste" + (i + 1);
+			ulistEl.appendChild(listEl);
+		}
+	}
+	
+	console.log("Bruk funksjonen lagListe(a) for å lage en liste med a som lengden");
+	lagListe(8);
+	
+	//Oppgave 7.22
+	
+	
+</script>
+</body>
+</html>

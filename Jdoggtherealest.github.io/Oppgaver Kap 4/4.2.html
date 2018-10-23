@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitel 4</title>
+</head>
+
+<body>
+	<script>
+		function tilfeldigHilsen() {
+			var hilsen = Math.floor(Math.random()*3);
+			
+			if(hilsen == 0) {
+				console.log("Hei");
+			} else if(hilsen == 1) {
+				console.log("Hallo");
+			} else {
+				console.log("God dag");
+			}
+			return "Hilset";
+		}
+		
+		tilfeldigHilsen();
+		tilfeldigHilsen();
+		tilfeldigHilsen();
+		tilfeldigHilsen();
+		tilfeldigHilsen();
+		//skal få forskjellige hilsner
+	</script>
+</body>
+</html>

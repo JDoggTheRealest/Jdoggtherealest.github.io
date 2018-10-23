@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgave Kapitell 11</title>
+</head>
+
+<body>
+	<h1>Favoritt Frukt</h1>
+	<p id="Antall">Antall frukter:</p>
+	<div class="container">
+		<input id="test" type="text">
+	</div>
+	<input type="button" value="Legg til">
+	<p id="Varsel"></p>
+	
+	<script>
+		
+		function add() {
+			//Sjekker om under 10 frukter
+			if(Antall < 10) {
+				//Lager Input boks
+				var InputEl = document.createElement("input");
+				InputEl.setAttribute("type", "text");
+				
+				//Legger til Input boksen
+				Container[0].appendChild(InputEl);
+				Antall++;
+			} else {
+				//Varsler om at ikke kan legge inn fler enn 10
+				var varsel = document.getElementById("Varsel");
+				varsel.innerHTML = "Maks grensen er 10 frukter";
+			}
+			AntallEl.innerHTML = "Antall frukter: " + Antall;
+		}
+		
+		//Lagrer antall frukter, og elemente som sier antalle
+		var Antall = 1;
+		var AntallEl = document.getElementById("Antall");
+		
+		//Lagrer knappen, med en click event
+		var Knapp = document.querySelectorAll("input[type='button']");
+		Knapp[0].addEventListener("click", add);
+		
+		//Skriver antall frukter i listen
+		AntallEl.innerHTML = "Antall frukter: " + Antall;
+		
+		//Lagrer container
+		var Container = document.getElementsByClassName("container");
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kap 8</title>
+</head>
+
+<body>
+<h1>Gjett hvilken tast som skal trykkes!</h1>
+<p id="keycode">KeyCode:</p>
+<p id="forsok">Antall forsøk:</p>
+<script>
+	
+	//Funksjon som velger et tilfeldig tall
+	function velgTall(a,b) {
+		return Math.floor(Math.random()*(b - a + 1) + a);
+	}
+	
+	//Lager en boolean 
+	var ferdig = false;
+	
+	//Funksjon som sjekker
+	function tastet(a) {
+		//Sjekker om tasten er funnet
+		if(ferdig) {
+		 	return "Du har allerede vunnet!";
+		} else if(a.keyCode != keycode) {
+			//Sjekker om keycoden ikke stemmer 
+			
+			//Inkrementer antall
+			antall++;
+			
+			//Oppdaterer antallet
+			forsokEl.innerHTML = "Antall forsok:" + antall;
+		} else {
+			//Inkrementer antall
+			antall++;
+			
+			//Skriver tekst om at vant og antall forsøk det tok
+			forsokEl.innerHTML = "Gratulerer du trykket på riktig tast på " + antall + " forsøk!";
+			
+			//Setter ferdig til true
+			ferdig = true;
+		}
+	}
+	
+	//Lagrer ulike elementer
+	var bodyEl = document.querySelector("body");
+	var forsokEl = document.getElementById("forsok");
+	var keycodeEl = document.getElementById("keycode");
+	
+	//Legger til en event listner som sjekker om tastature er trykket
+	bodyEl.addEventListener("keydown", tastet);
+	
+	//Lager to variabler
+	var antall = 0;
+	var keycode = 0;
+	
+	//Bruker funksjonen for velge et tilfeldig tall
+	keycode = velgTall(65,93);
+	
+	//Sjekker om tallet er mellom 91 til 93, for å bytte sjekke om æ, ø og å
+	if(keycode == 93) {
+		keycode = 192;
+	} else if(keycode == 92) {
+		keycode = 221;
+	} else if(keycode == 91) {
+		keycode = 222;
+	}
+	
+	//Oppdaterer teksten
+	keycodeEl.innerHTML = "KeyCode:" + keycode;
+	forsokEl.innerHTML = "Antall forsok:" + antall;
+	
+</script>
+</body>
+</html>

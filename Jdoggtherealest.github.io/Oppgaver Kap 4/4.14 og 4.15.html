@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 4</title>
+</head>
+
+<body>
+	<script>
+		/*Denne koden svarer på både 4.14 og 4.15*/
+		
+		//Vi lager en lokal variabel om vi lagrer den inni en funksjon, og global om utenfor
+		
+		//global
+		var lokal = "Denne variablen er global ikke lokal";
+		
+		function test() {
+			//lokal
+			var lokal = "Denne variablen er lokal";
+			return "test";
+		}
+		
+		test();
+		
+		//Om jeg nå loger den til konsolen vil vi få den globale variablen: "Denne variablen er global ikke lokal"
+		
+		console.log(lokal);
+	</script>
+</body>
+</html>

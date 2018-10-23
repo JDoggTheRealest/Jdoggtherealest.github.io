@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 11</title>
+<style>
+	
+	table {
+		border-collapse:collapse;
+		margin:auto;
+	}
+	
+	td {
+		width:18vh;
+		height:18vh;
+		border:2px black solid;
+		border-collapse:collapse;
+	}
+	
+	td:hover {
+		background-color:rgba(236,202,202,0.20);
+		cursor:pointer;
+	}
+	
+	h1, h3 {
+		text-align:center;
+		user-select:none;
+	}
+	img {
+		margin:auto;
+		display:block;
+		-webkit-user-drag: none;
+		user-select:none;
+	}
+	
+	td img {
+		width:100%;
+	}
+	
+	.spiller {
+		border:2px black solid;
+		width:100px;
+	}
+	
+</style>
+</head>
+
+<body>
+	<h1>Tre På Rad!</h1>
+	<table>
+		<tr class="1">
+			<td class="1"></td>
+			<td class="2"></td>
+			<td class="3"></td>
+		</tr>
+		<tr class="2">
+			<td class="1"></td>
+			<td class="2"></td>
+			<td class="3"></td>
+		</tr>
+		<tr class="3">
+			<td class="1"></td>
+			<td class="2"></td>
+			<td class="3"></td>
+		</tr>
+	</table>
+	<h3>Tur:</h3>
+	<img class="spiller" src="sirkel.png">
+	<script>
+		//lager Arrayen for holde styr på brikkene
+		var trePaaRad = [
+			["_", "_", "_"],
+			["_", "_", "_"],
+			["_", "_", "_"]
+		];
+		
+		//Funksjon for sjekke om heltall
+		function isInt(a) {
+			return a % 1 == 0;
+		}
+		
+		//Lagrer bilde elemente
+		var img = document.getElementsByClassName("spiller");
+		
+		//Lagrer alle td elementene
+		var td = document.getElementsByTagName("td");
+		
+		//Legger til en eventlistner for trykk
+		for(i = 0; i < td.length; i++) {
+			td[i].addEventListener("click", trykkLegg);
+		}
+		
+		var bruker = "o";
+		//Selve spillet
+		function legg(x,y) {
+			//Fjerner gammele meldinger
+			//console.clear();
+			
+			//Sjekker om tallene er innenfor brette
+			if((x < 1 || x > 3) || (y < 1 || y > 3)) {
+				
+				return "Kan ikke legge på " + x + ", " + y + " siden det er utenfor brette! (1-3)";
+				
+			} else if((typeof(x) == "number") && (typeof(y) == "number") && isInt(x) && isInt(y)) {
+				//Om tallene er innenfor brette og heletall kjører denne koden
+				
+				//Sjekker om plassen er ledig
+				if(trePaaRad[y-1][x-1] == "_") {
+					//Legger inn "klossen" til brukeren
+					trePaaRad[y-1][x-1] = bruker;
+					
+					//Skriver ut hver rad hver for seg, slik at ikke klumpes i konsollen
+					for(i = 0; i < 3; i++) {
+						console.log(trePaaRad[i]);	
+					}
+					
+					//Oppdaterer spillet
+					oppdater();
+					
+					//Sjekker om spilleren vinner
+					var vinn = false;
+					
+					for(i = 0; i < 3; i++) {
+						
+						//Sjekker horisontalt
+						if((trePaaRad[i][0] == trePaaRad[i][1]) && (trePaaRad[i][1] == trePaaRad[i][2]) 
+						   && (trePaaRad[i][0] != "_")) {
+							
+							vinn = true;
+							
+						} 
+						
+						//Sjekker vertikalt
+						else if((trePaaRad[0][i] == trePaaRad[1][i]) && (trePaaRad[1][i] == trePaaRad[2][i]) && (trePaaRad[0][i] != "_")) {
+							
+							vinn = true;
+							
+						}
+						
+						//Sjekker skrått
+						else if((trePaaRad[i][0] == trePaaRad[1][1]) && (trePaaRad[1][1] == trePaaRad[2-i][2]) && (trePaaRad[i][0] != "_")) {
+							
+							vinn = true;
+							
+						}
+					
+							
+					}
+					
+					if(vinn == true) {
+						//Om vinn er true kjøres denne koden
+						
+						//Starter brette på nytt
+						trePaaRad = [
+							["_", "_", "_"],
+							["_", "_", "_"],
+							["_", "_", "_"]
+						];
+						
+						return "Grattulerer spiller " + bruker + "!!!";
+						
+					} else if(String(trePaaRad).indexOf("_") == -1) {
+						//Hvis "_" ikke finnes betyr det at alle plassene er brukt
+						
+						//Starter brette på nytt
+						trePaaRad = [
+							["_", "_", "_"],
+							["_", "_", "_"],
+							["_", "_", "_"]
+						];
+						
+						return "Uavgjort, bruk legg() for starte ny runde!";
+						
+					} else {
+						//Om ikke vunnet eller alt er spilt bytt person
+						
+						//Endrer bruker for hver runde
+						if(bruker == "o") {
+							bruker = "x";
+							img[0].src = "kryss.png";
+						} else {
+							bruker = "o";
+							img[0].src = "sirkel.png";
+						}
+						
+						return bruker + " sin tur!";
+					}
+					
+				} else {
+					//Om det legges på en plass som ikke er ledig, returneres denne meldingen
+					return "Denne plassen er tatt allerede";
+				}
+				
+			} else {
+				//Om det ikke er heltall vil man få denne feilmeldingen
+				return "Spillet aksepterer bare hele tall fra 1 til 3";
+				
+			}
+		}
+		
+		function regler() {
+			//Fjerner logen
+			console.clear();
+			
+			//Skriver ut reglene
+			console.log("Tre på rad går ut på å legge 3 brikker på rad");
+			console.log("Enten om det er horisontalt, vertikalt eller på skrå");
+			console.log("Spillet foregår i et rutenett på 3x3:");
+			console.log("");
+			console.log('["_","_","_"]');
+			console.log('["_","_","_"]');
+			console.log('["_","_","_"]');
+			console.log("");
+			console.log("Man leger en kloss per runde, og den som starter legger en o");
+			console.log("Neste mann leger en x");
+			console.log("Det er ikke lov til lege en kloss hvor det allerede er en");
+			
+			//Gir en siste lykke til
+			return "Lykke til!";
+		}
+		
+		//Skriver ut en velkomst til de som skal spille
+		console.log("Tre på rad");
+		console.log("Velkommen til tre på rad, for å legge en brike bruk kommandoen legg(x,y)");
+		console.log("Om du er ny til spillet bruk kommandoen regler()");
+		console.log("Lykke til");
+		
+		function trykkLegg() {
+			//Lagrer boksens x og y posisjon
+			var boksx = Number(this.className);
+			var boksy = Number(this.parentElement.className);
+			
+			//Bruker funksjonen legg(x,y)
+			legg(boksx, boksy);
+		}
+		
+		function oppdater() {
+			
+			//Kjører en 2 dimensjonal for loop
+			for(i = 0; i < 3; i++) {
+				for(j = 0; j < 3; j++) {
+					
+					//Sjekker om td har et bilde 
+					if (td[(i*3)+j].childElementCount == 1) {
+						//Fjerner bilde
+						td[(i*3)+j].removeChild(td[(i*3)+j].firstChild);
+					}
+					
+					//Sjekker om td ikke er tom
+					if(trePaaRad[i][j] != "_") {
+						//Lager et nytt bilde element
+						var klossImg = document.createElement("img");
+						
+						//Sjekker hvilke kloss som er lagt, for å så legge inn src til klossens bilde
+						if(trePaaRad[i][j] == "o") {
+							klossImg.src = "sirkel.png";
+						} else if(trePaaRad[i][j] == "x") {
+							klossImg.src = "kryss.png";
+						}
+						
+						//Legger til bilde elemente inni tden 
+						td[(i*3)+j].appendChild(klossImg);
+					} 
+				}
+			}
+			
+		}
+	</script>
+</body>
+</html>

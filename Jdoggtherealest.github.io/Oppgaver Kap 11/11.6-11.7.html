@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 11</title>
+</head>
+	
+<body>
+	<script>
+		var liste1 = [1 ,4 ,5 ,2];
+		var liste2 = [3 ,5 ,-13 ,5 ,4 ,2];
+		var liste3 = [3 ,2 ,134 ,0 ,5];
+		
+		function minsteVerdi(a) {
+			//B = minste tallet, setter det til index 0
+			var b = a[0]; 
+			
+			//Går gjennom hele arrayen for finne minste tallet
+			for(i = 0; i < a.length; i++) {
+				//Sjekker om det er mindre enn minste tallet det har funnet så langt
+				if(a[i] < b) {
+					b = a[i];
+				}
+			}
+			
+			//Når funnet minste tallet returneres det
+			return b;
+		}
+		
+		function gjennomsnitt(a) {
+			//sjekker om det er et object
+			if(typeof(a) == "object") {
+				//B = sumen av alle tallene
+				var b = 0;
+				
+				//Legger sammen alle tallene i arrayen
+				for(i = 0; i < a.length; i++) {
+					b += a[i];
+				}
+				
+				//Returnerer sumen delt på lengden til array aka gjennomsnittet
+				return b / a.length;
+			} else {
+				//Om ikke object, return feil
+				return false;
+			}
+		}
+		
+		//Oppgave 6
+		console.log("11.6:");
+		
+		console.log(minsteVerdi(liste1));
+		console.log(minsteVerdi(liste2));
+		console.log(minsteVerdi(liste3));
+		
+		//Oppgave 7
+		console.log("11.7:");
+		
+		console.log(gjennomsnitt(liste1));
+		console.log(gjennomsnitt(liste2));
+		console.log(gjennomsnitt(liste3));
+	</script>
+</body>
+</html>

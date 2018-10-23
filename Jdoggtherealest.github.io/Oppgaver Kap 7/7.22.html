@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kapitell 7</title>
+</head>
+
+<body>
+	<h1>Lag en egen tabell</h1>
+	<p>Åpne konsolen, og bruk lagTabell(kolone,rad) funksjonen!</p>
+
+	<script>
+		
+		//Lager funksjon som lager a antall kolonner, og b antall rader
+		function lagTabell(a,b) {
+			
+			//Lagrer body elemente
+			var body = document.querySelector("body");
+			
+			//Lager tabell element, og leger det til i body
+			var tableEl = document.createElement("table");
+			body.appendChild(tableEl);
+			
+			//Kjører en for loop for antall kolonner
+			for(i = 0; i < a; i++) {
+				
+				//Lager et tr/rad element, og legger det i bunnen av tabellen
+				var trEl = document.createElement("tr");
+				tableEl.appendChild(trEl);
+				
+				//Kjører en for loop for antall rader
+				for(j = 0; j < b; j++) {
+					
+					//Lager et td/tabelldata element
+					var tdEl = document.createElement("td");
+					
+					//Lagrer en tekst, med en egen-laget algorytme som gir meg rekkefølgen på dataen
+					tdEl.innerHTML = (i*b)+j+1;
+					
+					//Leger til elemente i bunnen av raden
+					trEl.appendChild(tdEl);
+					
+				}
+			}
+		}
+		
+		//Bruker funksjonen for lage en tabell med 3 koloner og 4 rader
+		lagTabell(3,4);
+	</script>
+</body>
+</html>

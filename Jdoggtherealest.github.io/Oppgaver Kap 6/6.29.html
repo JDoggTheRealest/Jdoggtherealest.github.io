@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Oppgaver Kap 6</title>
+<style>
+	/*Oppgave 6.29*/
+	table {
+		border-collapse:collapse;
+	}
+	
+	tbody tr:nth-child(odd) {
+		background-color: #f2f2f2;
+	}
+	
+	td, th {
+		border:1px solid black;
+		padding:10px;
+	}
+	
+	th {
+		background-color:deepskyblue;
+	}
+	
+	td:hover {
+		background-color:#C8C8C8;
+	}
+	
+	/*Oppgave 6.31 til 6.32*/
+	.RE:hover {
+		background-color:orange;
+		color:white;
+	}
+	.HS:hover {
+		background-color:darkgreen;
+		color:white;
+	}
+	.KT:hover {
+		background-color:chartreuse;
+	}
+	.MR:hover {
+		background-color:limegreen;
+		color:white;
+	}
+	.FS:hover {
+		background-color:deeppink;
+		color:white;
+	}
+	.NK:hover {
+		background-color:darkblue;
+		color:white;
+	}
+	.IT:hover {
+		background-color:cornflowerblue;
+		color:white;
+	}
+	.GM:hover {
+		background-color:purple;
+		color:white;
+	}
+	.FG:hover {
+		background-color:deeppink;
+		color:white;
+		animation:fagdag 5s infinite;
+	}
+	
+	@keyframes fagdag {
+		25% {background-color:darkblue;}
+		50% {background-color:cornflowerblue;}
+		75% {background-color:deeppink;}
+		100% {background-color:limegreen;}
+	}
+</style>
+</head>
+
+<body>
+	<h1>Timeplan</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Mandag</th>
+				<th>Tirsdag</th>
+				<th>Onsdag</th>
+				<th>Torsdag</th>
+				<th>Fredag</th>
+			</tr>
+		</thead>
+		<!-- Classes lagt til i oppgave 6.31-->
+		<tbody>
+			<tr>
+				<td>Fri</td>
+				<td class="MR">8:15-9:45 Matte R2 Rom:R255</td>
+				<td>Fri</td>
+				<td>Fri</td>
+				<td class="FS">8-15-9:45 Fysikk 2 Rom:Fysrom</td>
+			</tr>
+			<tr>
+				<td class="HS">10:45-11:30 Historie Rom:R304</td>
+				<td class="FG">9:55-11:30 Fagdag</td>
+				<td class="KT">10:40-11:25 Klassenstime Rom:304</td>
+				<td class="IT">9:55-11:25 It Rom:209</td>
+				<td class="HS">9:55-11:25 Historie Rom:304</td>
+			</tr>
+			<tr>
+				<td>11:30-12:00 Friminutt</td>
+				<td>11:30-12:00 Friminutt</td>
+				<td>11:25-12:00 Friminutt</td>
+				<td>11:25-11:55 Friminutt</td>
+				<td>11:25-11:55 Friminutt</td>
+			</tr>
+			<tr>
+				<td class="HS">12:00-12:45 Historie Rom:304</td>
+				<td class="FG">12:00-14:25 Fagdag</td>
+				<td class="FS">12:00-13:30 Fysikk 2 Rom:Fysrom</td>
+				<td class="NK">11:55-14:10 Norsk Rom:304</td>
+				<td class="NK">11:55-13.25 Norsk Rom:304</td>	
+			</tr>
+			<tr>
+				<td class="IT">12:55-14-25 It Rom:209</td>
+				<td></td> 
+				<td></td>
+				<td class="MR">14:30-16:00 Matte R2 Rom:Fysrom</td>
+				<td class="RE">13:35-14:20 Relgion Rom:304</td>
+			</tr>
+			<tr>
+				<td class="GM">14:30-16:00 Gym Rom:Gymsalen</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="RE">14:25-15:55 Relgion Rom:304</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
