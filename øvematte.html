@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Øve til matte</title>
+<style>
+	.right {
+		background-color:lightgreen;
+		color:white;
+	}
+	
+	.wrong {
+		background-color:orangered;
+		color:white;
+	}
+	
+	h1 {
+		text-align:center;
+		width:100%;
+		height:15vh;
+		margin:0;
+		padding:4vh;
+		box-sizing:border-box;
+		font-size:4.2vh;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	
+	table {
+		height:85vh;
+		width:100vw;
+	}
+	
+	body {
+		margin:0;
+	}
+	
+	td {
+		width:40vw; 
+		text-align:center;
+		background-color:lightgray;
+		font-size:4vh;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+</style>
+</head>
+
+<body>
+	<table>
+		<h1></h1>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	
+	<script>
+		
+		var questions = [
+			["Hva er sin(x) derivert?",1]
+			,["Hva er cos(x) derivert?",2]
+			,["Hva er -cos(x) derivert?",0]
+			,["Hva er cos(x) antiderivert?",0]
+			,["Hva er -sin(x) antideriver?",1]
+			,["Hva er sin(x) antiderivert?",3]
+			,["Hva er -cos(x) antiderivert?",2]
+			,["Hva er -sin(x) derivert?",3]
+		];
+		
+		var answers = ["sin(x)","cos(x)","-sin(x)","-cos(x)"];
+		
+		var tdEl = document.getElementsByTagName("td");
+		
+		function randomFrom(a,b) {
+			return Math.floor(Math.random()*(b - a + 1) + a);
+		}
+		
+		var h1 = document.querySelector("h1");
+		
+		var question = 0;
+		var tempAns = [];
+		
+		function ask() {
+			
+			clearInterval(delay);
+			
+			for(var i = 0; i < tdEl.length; i++) {
+				tdEl[i].addEventListener("click", sjekk);
+			}
+			
+			question = randomFrom(0,7);
+			
+			h1.innerHTML = questions[question][0];
+			
+			while(tempAns.length < answers.length) {
+			
+			var tempNum = randomFrom(0,3);
+			
+				if(tatt(tempNum)) {
+					tempAns.push(tempNum);
+				}
+			
+			}
+			
+			for(var i = 0; i < tdEl.length; i++) {
+				tdEl[i].className = "";
+				tdEl[i].innerHTML = answers[tempAns[i]];
+			}
+			
+			tempAns = [];
+		}
+		
+		function tatt(tempNum) {
+			
+			for(var i = 0; i < tempAns.length; i++) {
+				if(tempAns[i] == tempNum) {
+					return false;
+				}
+			}
+			
+			return true;
+			
+		}
+		
+		var delay;
+		
+		function sjekk(ev) {
+			
+			var tempGuess = ev.target.innerHTML;
+			var tempRA = answers[questions[question][1]];
+			
+			if(tempRA == tempGuess) {
+				
+				ev.target.className = "right";
+				ev.target.innerHTML = "Bra jobba!"; 
+				h1.innerHTML = "Korrekt svar!";
+				
+			} else {
+				
+				ev.target.className = "wrong";
+				ev.target.innerHTML = "Feil, svaret var " + tempRA + "!";
+				h1.innerHTML = "Svaret var dessverre feil, prøv igjen!";
+				
+			}
+			
+			for(var i = 0; i < tdEl.length; i++) {
+				tdEl[i].removeEventListener("click", sjekk);
+			}
+			
+			delay = setInterval(ask,3000);
+			
+		}
+		
+		ask();
+		
+	</script>
+</body>
+</html>
