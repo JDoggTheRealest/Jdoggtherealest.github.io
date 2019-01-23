@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Alarm</title>
+	<style>
+		body {
+			max-width: 100vw;
+			max-height: 100vh;
+			margin: 0;
+			font-family: Helvetica, Arial, sans-serif;
+		}
+		
+		button {
+			background: url(buttonback.png);
+			background-size: cover;
+			background-position-x: center;
+			background-position-y: center;
+			color:white;
+			border: #36568F 0.3vh solid;
+			font-size: 2.2vw;
+			width: 45vh;
+    		height: 16.2vh;
+			cursor:pointer;
+			user-select: none;
+			margin-left: 106.5vh;
+			margin-top: 7.4vh;
+		}
+		
+		button:hover {
+			border: #244072 0.5vh solid;
+		}
+		
+		button:active {
+			font-size: 3.5vw;
+			border: #4066AB 0.7vh solid;
+		}
+		
+		.setup {
+		    width: 157vh;
+			margin:auto;
+		}
+		
+		.setup h1 {
+			font-size: 13vh;
+    		margin-top: 5vh;
+			margin-bottom: 0;
+		}
+		
+		label {
+			font-size: 8vh;
+		}
+		
+		input {
+			font-size: 5vh;
+			margin-top: 12vh;
+			padding: 1vw;
+		}
+		
+		#title {
+			width: 128vh;
+		}
+		
+		#min {
+			width: 26vh;
+		}
+		
+		.main {
+			display:none;
+		}
+		
+		.overlay h1 {
+			text-align: center;
+			font-size: 12vh;
+    		padding-top: 5vh;
+			margin:0;
+			margin-bottom: 0;
+			color: white;
+		}
+		
+		.overlay {
+			background-color: #767070;
+			height: 24.5vh;
+		}
+		
+		#clock {
+			font-size: 60vh;
+    		margin: 0;
+    		text-align: center;
+		}
+		
+		#bar {
+			width:100%;
+			background-color: #4372c3;
+    		height: 3.6vh;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<div class="setup">
+		<h1>Setup skjerm</h1>
+		<label>Tittel:    </label><input id="title"><br>
+		<label>Antall minutter:    </label><input id="min" type="number">
+		<button>GO!</button>
+	</div>
+	<div class="main">
+		<div class="overlay">
+			<h1>DAILY SPRINT MEETING</h1>
+		</div>
+		<div id="bar"></div>
+		<h1 id="clock">01:55</h1>
+	</div>
+	
+	<script>
+		
+		var h1El = document.getElementsByTagName("h1");
+		var input = document.getElementsByTagName("input");
+		var divEl = document.getElementsByTagName("div");
+		var button = document.getElementsByTagName("button")[0];
+		var time = 0;
+		var barTime = 0;
+		var startTime = 0;
+		var i = 0;
+		
+		button.addEventListener("click", change);
+		
+		function change() {
+			
+			if((input[0].value != "") && (input[1].value != "") && !(/^\s+$/.test(input[0].value))) {
+				
+			time = Math.round(input[1].value*60);
+			barTime = time;
+			startTime = time;
+				
+			h1El[1].innerHTML = input[0].value;	
+			
+			divEl[0].style.display = "none";
+			divEl[1].style.display = "block";
+			
+			h1El[2].innerHTML = convertToTime(time);
+				
+			setInterval(trigger, 10);
+			} else {
+				alert("Du må oppgi en tittel og antall minutter!");
+			}
+				
+		}
+				
+		function trigger() {
+			
+			barTime -= 0.01;
+			divEl[3].style.width = (barTime/startTime)*window.innerWidth + "px";
+			
+			i++;
+			
+			if(i >= 100) {
+			
+				time = (time - 1) < 0 ? 0 : time - 1;
+				h1El[2].innerHTML = convertToTime(time);
+				i = 0;	
+			
+			}
+		}
+		
+		function convertToTime(a) {
+			
+			return isNaN(a) ? "00:00" : (Math.floor(a/60) > 9 ? Math.floor(a/60) : "0" + Math.floor(a/60) ) + ":" + (a%60 > 9 ? a%60 :  "0" + a%60);
+
+		}
+		
+	</script>
+</body>
+</html>
