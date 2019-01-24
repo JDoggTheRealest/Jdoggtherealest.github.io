@@ -42,9 +42,6 @@
 		var barTime = 0;
 		var startTime = 0;
 		var i = 0;
-		
-		//Angir en global variabel som senere skal brukes til oppdatering av klokka
-		var update = "";
 	
 		//Lagrer søk for parametere til nettsiden
 		var urlParams = new URLSearchParams(window.location.search);
@@ -103,10 +100,18 @@
 				
 			//Trigger funksjonen en gang å legger til en interval som kjører hvert 10ms
 			trigger();
-			update = setInterval(trigger, 10);
-				
-		}
 			
+			//Lager en web worker for at klokken skal tikke selvom vindu ikke er i fokus
+			if (typeof(clockWorker) == "undefined") {
+				var clockWorker = new Worker("worker.js");
+			}
+		}
+		
+		clockWorker.onmessage = function() {
+			console.log("test");
+			trigger();
+		}
+		
 		//Lager en funksjon som endrer tid og progresjons bar
 		function trigger() {
 			
@@ -145,9 +150,6 @@
 				
 				//Legger til class flick for å få animasjon
 				h1El[2].className = "flick";
-				
-				//Fjerner intervalet, slik at klokken ikke oppdateres
-				clearInterval(update);
 				
 			} else if(barTime <= 30) { //Sjekker ellers om 30 eller mindre sekunder igjen
 				
