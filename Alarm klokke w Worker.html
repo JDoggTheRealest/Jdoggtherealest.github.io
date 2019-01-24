@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Alarm</title>
+<link rel="stylesheet" href="Alarm.css" type="text/css">
+</head>
+
+<body>
+	
+	<div class="setup">
+		<h1>Setup skjerm</h1>
+		<form>
+			<label>Tittel:    </label><input id="title" name="title" required><br>
+			<label>Antall minutter:    </label><input id="min" type="number" name="time" step="any" required>
+			<button disabled title="Fyll inn inputene">GO!</button>
+		</form>
+	</div>
+	
+	<div class="main">
+		<div class="overlay">
+			<h1>DAILY SPRINT MEETING</h1>
+		</div>
+		<div id="bar"></div>
+		<h1 id="clock">01:55</h1>
+	</div>
+	
+	<iframe src="silent.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+	<script>
+		
+		//Lagrer lyden til alarmen
+		var sound = new Audio("sound.mp3");
+		
+		//Lagrer h1, input, div og button elementene fra html dokumentet
+		var h1El = document.getElementsByTagName("h1");
+		var input = document.getElementsByTagName("input");
+		var divEl = document.getElementsByTagName("div");
+		var button = document.getElementsByTagName("button")[0];
+		
+		//Angir en rekke variabler for tid 
+		var time = 0;
+		var barTime = 0;
+		var startTime = 0;
+		var i = 0;
+	
+		//Lager en web worker for at klokken skal tikke selvom vindu ikke er i fokus
+		if (typeof(clockWorker) == "undefined") {
+			clockWorker = new Worker("worker.js");
+		}
+		
+		//Lagrer søk for parametere til nettsiden
+		var urlParams = new URLSearchParams(window.location.search);
+		
+		//Sjekker om parameterne er satt 
+		if((urlParams.has("title")) && (urlParams.has("time"))) {
+			
+			//Kjører koden
+			change();
+			
+		}
+		
+		//Legger til eventlistner for når brukeren skriver i inputene
+		input[0].addEventListener("input", test);
+		input[1].addEventListener("input", test);
+		
+		//Sjekker om inputene har value
+		test();
+		
+		//Lager en funksjon å sjekke om inputene ikke er blanke
+		function test() {
+			
+			
+			//Sjekker om tittelen og tallet ikke er blanke
+			if((input[0].value != "") && (input[1].value != "") && !(/^\s+$/.test(input[0].value))) {
+			
+				//Fjerner diabled attributen
+				button.removeAttribute("disabled");
+				
+			} else {
+			
+				//Legger til disabled attributen
+				button.setAttribute("disabled","");
+				
+			}
+			
+		}
+		
+		//Lager en funksjon som kjører når knappen presses
+		function change() {
+				
+			//Setter tiden, bar tiden og start tiden til det brukeren har inputet
+			time = Math.round(urlParams.get("time")*60);
+			barTime = time;
+			startTime = time;
+				
+			//Setter tittelen til det brukeren har inputa
+			h1El[1].innerHTML = urlParams.get("title");	
+				
+			//Displayer klokka, og fjerner startenyen
+			divEl[0].style.display = "none";
+			divEl[1].style.display = "block";
+			
+			//Endrer tiden
+			h1El[2].innerHTML = convertToTime(time);
+				
+			//Trigger funksjonen en gang å legger til en interval som kjører hvert 10ms
+			trigger();
+			
+			//Sender melding til web workeren om å starte
+			clockWorker.postMessage("crap");
+			
+		}
+		
+		//Lager en funksjon som gjør at webworkeren kan jobbe i bakgrunnen
+		clockWorker.onmessage = function(e) {
+			
+			if(e.data == "crap") {
+			   
+			//Kjører funksjonen for å oppdatere klokken
+			trigger();
+			
+			}
+		
+		}
+		
+		//Lager en funksjon som endrer tid og progresjons bar
+		function trigger() {
+			
+			//Minsker baren
+			divEl[3].style.width = (barTime/startTime)*window.innerWidth + "px";
+			barTime -= 0.01;
+			
+			//Øker tallet for klokke oppdatering
+			i++;
+			
+			//Sjekker om i >= 100 for å oppdatere klokka
+			if(i >= 100) {
+				
+				//Oppdaterer tiden, men verdien kan ikke bli mindre enn 0
+				time = (time - 1) < 0 ? 0 : time - 1;
+				
+				//Reseter i
+				i = 0;	
+				
+			}
+			
+			//Oppdaterer klokka
+			h1El[2].innerHTML = convertToTime(time);
+			
+			//Sjekker om bartime er mindre eller lik 0
+			if(barTime <= 0) {
+				
+				//Endrer teksten sin farge
+				h1El[2].style.color = "#e00505";
+						
+				//Spiller av lyden
+				sound.play();
+				
+				//Fjerner baren
+				divEl[3].style.width = 0;
+				
+				//Legger til class flick for å få animasjon
+				h1El[2].className = "flick";
+				
+				clockWorker.terminate();
+				
+			} else if(barTime <= 30) { //Sjekker ellers om 30 eller mindre sekunder igjen
+				
+				//Endrer baren sin farge
+				divEl[3].style.backgroundColor = "#ec1d1d";
+				
+				//Legger til en animasjon
+				divEl[3].style.animation = "colorChange .2s";
+				
+			}
+			
+		}
+		
+		//Lager en funksjon som tar imot et tall og gjør det om i en tid i formate "mm:ss"
+		function convertToTime(a) {
+			
+			//Returnerer tid stringen
+			return isNaN(a) ? "00:00" : (Math.floor(a/60) > 9 ? Math.floor(a/60) : "0" + Math.floor(a/60) ) + ":" + (a%60 > 9 ? a%60 :  "0" + a%60);
+
+		}
+		
+	</script>
+</body>
+</html>
