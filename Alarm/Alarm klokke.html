@@ -42,12 +42,10 @@
 		var barTime = 0;
 		var startTime = 0;
 		var i = 0;
-	
-		//Lager en web worker for at klokken skal tikke selvom vindu ikke er i fokus
-		if (typeof(clockWorker) == "undefined") {
-			clockWorker = new Worker("worker.js");
-		}
 		
+		//Angir en global variabel som senere skal brukes til oppdatering av klokka
+		var update = "";
+	
 		//Lagrer søk for parametere til nettsiden
 		var urlParams = new URLSearchParams(window.location.search);
 		
@@ -105,24 +103,10 @@
 				
 			//Trigger funksjonen en gang å legger til en interval som kjører hvert 10ms
 			trigger();
-			
-			//Sender melding til web workeren om å starte
-			clockWorker.postMessage("crap");
-			
+			update = setInterval(trigger, 10);
+				
 		}
-		
-		//Lager en funksjon som gjør at webworkeren kan jobbe i bakgrunnen
-		clockWorker.onmessage = function(e) {
 			
-			if(e.data == "crap") {
-			   
-			//Kjører funksjonen for å oppdatere klokken
-			trigger();
-			
-			}
-		
-		}
-		
 		//Lager en funksjon som endrer tid og progresjons bar
 		function trigger() {
 			
@@ -162,7 +146,8 @@
 				//Legger til class flick for å få animasjon
 				h1El[2].className = "flick";
 				
-				clockWorker.terminate();
+				//Fjerner intervalet, slik at klokken ikke oppdateres
+				clearInterval(update);
 				
 			} else if(barTime <= 30) { //Sjekker ellers om 30 eller mindre sekunder igjen
 				
