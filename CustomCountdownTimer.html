@@ -239,12 +239,27 @@
 			//Temp lagres lengden til stringen
 			var tempL = element.innerHTML.length;
 			
+			var spaces = 0;
+			
+			//Teller opp antall mellomrom
+			for(var i = 0; i < tempL; i++) {
+				
+				//Sjekker om mellomrom
+				if(element.innerHTML[i] == " ") {
+					
+					//Øker antallet
+					spaces++;
+					
+				}
+				
+			}
+			
 			//Sjekker om lengden er over 12
 			if(tempL > 12) {
 				
 				//Endrer på font størrelsen og padding fra toppen
-				element.style.fontSize = (100/tempL) + "vw";
-				element.style.paddingTop = (tempL/4) + "vh";
+				element.style.fontSize = (100/(tempL  - (spaces/1.4))) + "vw";
+				element.style.paddingTop = ((tempL - (spaces/1.4))/4) + "vh";
 				
 			}
 			
