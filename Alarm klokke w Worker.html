@@ -22,10 +22,13 @@
 	<div class="main">
 		<div class="overlay">
 			<h1>DAILY SPRINT MEETING</h1>
-			<img src="cog.png" class="cog">
+			<img src="cog.png" class="cog" alt="menu">
 		</div>
 		<div id="bar"></div>
 		<h1 id="clock">01:55</h1>
+		<img class="backward" src="backwards.png" alt="Add time">
+		<img class="pause" src="pause.png" alt="Pause time">
+		<img class="forward" src="fastforward.png" alt="Remove time"> 
 	</div>
 	
 	<iframe src="silent.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
@@ -40,7 +43,7 @@
 		var input = document.getElementsByTagName("input");
 		var divEl = document.getElementsByTagName("div");
 		var button = document.getElementsByTagName("button")[0];
-		var cog = document.getElementsByClassName("cog")[0];
+		var img = document.getElementsByTagName("img");
 		
 		//Angir en rekke variabler for tid 
 		var left = 0;
@@ -84,15 +87,6 @@
 		test();
 		
 		
-		//Sjekker om brukeren trykker på tannhjulet
-		cog.onclick = function() {
-			
-			//Redirectes
-			window.location.replace(window.location.href.slice(0,window.location.href.indexOf("?")));
-			
-		}
-		
-		
 		//Lager en funksjon å sjekke om inputene ikke er blanke
 		function test() {
 			
@@ -116,7 +110,7 @@
 		function change() {
 			
 			//Oppdaterer date
-			date = new Date().getTime()
+			date = new Date().getTime();
 			
 			//Setter tiden og starttiden til det brukeren har inputet
 			time = Math.round(urlParams.get("time")*60);
@@ -168,10 +162,11 @@
 			divEl[3].style.width = (barTime/time)*window.innerWidth + "px";
 					
 			//Oppdaterer tiden nå
-			now = Math.round(barTime);
+			now = (Math.round(barTime) < 0) ? 0 : Math.round(barTime);
 			
 			//Oppdaterer klokka
 			h1El[2].innerHTML = convertToTime(now);
+			
 			
 			//Sjekker om bartime er mindre eller lik 0
 			if(barTime <= 0) {
@@ -191,7 +186,15 @@
 				//Fjerner web workeren
 				clockWorker.terminate();
 				
-			} else if(barTime <= 31) { //Sjekker ellers om 30 eller mindre sekunder igjen
+				//Lagrer alle bildene i en temp array
+				var tempImg = document.querySelectorAll("img");
+				
+				//Fjerner de tre tidsknappene
+				for(var i = 1; i < tempImg.length; i++) {
+					tempImg[i].remove();
+				}
+				
+			} else if(barTime <= 30) { //Sjekker ellers om 30 eller mindre sekunder igjen
 				
 				//Endrer baren sin farge
 				divEl[3].style.backgroundColor = "#ec1d1d";
@@ -199,16 +202,19 @@
 				//Legger til en animasjon
 				divEl[3].style.animation = "colorChange .2s";
 				
+			} else if (barTime > 30) { //Sjekke om bartime er over 30 sec
+					 
+				//Endrer baren sin farge
+				divEl[3].style.backgroundColor = "#4372c3";
+				
 			}
 			
-			//Sjekker om det har gått 30 sec, og at brukeren ønsker tick tock lyder
+			
+			//Sjekker om det er now er delig på 30, og at brukeren ønsker tick tock lyder
 			if((tock) && (now != 0) && (now%30 == 0)) {
 			   
 				//Spiller tick tock lyden
 				tictoc.play();
-				
-				//Reseter tick variabelen
-				tick = 0;
 				
 			}
 			
@@ -223,22 +229,98 @@
 
 		}
 		
+		
+		//Lager en funksjon for å endre størrelsen på titelen
 		function fontSize(element) {
 				
+			//Temp lagres lengden til stringen
 			var tempL = element.innerHTML.length;
 			
+			//Sjekker om lengden er over 12
 			if(tempL > 12) {
+				
+				//Endrer på font størrelsen og padding fra toppen
 				element.style.fontSize = (100/tempL) + "vw";
 				element.style.paddingTop = (tempL/4) + "vh";
+				
 			}
 			
 		}
 		
-		/*Todo*/
 		
-		//Venstrepil "+30s"
-		//Høyrepil "-60s" 
-		//Pause knapp
+		//Sjekker om brukeren trykker på tannhjulet
+		img[0].onclick = function() {
+			
+			//Redirectes
+			window.location.replace(window.location.href.slice(0,window.location.href.indexOf("?")));
+			
+		}
+		
+		//Sjekker om brukeren trykker på mer tid
+		img[1].onclick = function() {
+			
+			//Sjekker om ikke har pauset
+			if(img[2].getAttribute("src") == "pause.png") {
+				//Legger til ekstra tid
+				time = now + 30;
+
+				//Restarter tiden siden endres
+				startTime = date;
+			}
+			   
+		}
+		
+		//Sjekker om brukeren vil stoppe
+		img[2].onclick = function() {
+			
+			//Sjekker om pauseknapp
+			if(img[2].getAttribute("src") == "pause.png") {
+				
+				//Bytter til startknapp, og sender melding til worker om stope
+				clockWorker.postMessage("stop");
+				img[2].src = "play.png";
+				
+				//Stopper lyden
+				tictoc.pause();
+				
+			} else if(img[2].getAttribute("src") == "play.png") { //Ellers sjekkes det om start knapp
+				
+				//Oppdaterer date
+				date = new Date().getTime();
+				
+				//Sender melding til worker om å starte, og endrer knappen til pauseknapp
+				clockWorker.postMessage("crap");
+				img[2].src = "pause.png";
+				
+				//Angir ny startstid
+				startTime = date - ((time - barTime)*1000);
+				
+				//Sjekker om brukeren ønsker tick tock lyd
+				if(tock) {
+					
+					//Starter lyden på nytt og spiller av ticktock lyden
+					tictoc.currentTime = 0;
+					tictoc.play();
+					
+				}
+				
+			}
+			
+		}
+		
+		//Sjekker om brukeren vil fjerne tid
+		img[3].onclick = function() {
+			
+			//Sjekker om tiden ikke er pauset
+			if(img[2].getAttribute("src") == "pause.png") {
+			//Fjerner tid
+			time = ((now - 60) < 0) ? 0 : (now - 60);
+			
+			//Restarter startiden siden tiden endres
+			startTime = date;
+			}
+				
+		}
 		
 	</script>
 </body>

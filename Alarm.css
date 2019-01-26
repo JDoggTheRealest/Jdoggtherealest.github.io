@@ -149,6 +149,38 @@
 		transform: rotate(22.5deg);
 	}
 
+	.pause {    
+		position: fixed;
+		bottom: 3vh;
+		margin: auto;
+		right: 6.5vw;
+		width: 3vw;
+		opacity: 0.13;
+	}
+
+	.forward {
+		position: fixed;
+		bottom: 3.1vh;
+		margin: auto;
+		right: 2vw;
+		width: 3.3vw;
+		opacity: 0.13;
+	}
+	
+	.backward {
+		position: fixed;
+		bottom: 3.1vh;
+		margin: auto;
+		right: 11vw;
+		width: 3.3vw;
+		opacity: 0.13;
+	}
+
+	.pause:hover, .forward:hover, .backward:hover {
+		opacity: 0.2;
+		cursor:pointer;
+	}
+
 /*CSS Made By Johannes Mørkrid*/
 
 	/* The container */
