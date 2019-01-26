@@ -142,11 +142,13 @@
 		height: 12vh;
 		top: 6.25vh;
 		right: 3.75vh;
+		opacity: 0.4;
 	}
 
 	.cog:hover {
 		cursor:pointer;
 		transform: rotate(22.5deg);
+		opacity: 0.4;
 	}
 
 	.pause {    
@@ -175,6 +177,8 @@
 		width: 3.3vw;
 		opacity: 0.13;
 	}
+
+
 
 	.pause:hover, .forward:hover, .backward:hover {
 		opacity: 0.2;
