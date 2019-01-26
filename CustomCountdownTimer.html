@@ -9,13 +9,13 @@
 <body>
 	
 	<div class="setup">
-		<h1>Setup skjerm</h1>
+		<h1>Countdown Setup</h1>
 		<form>
-			<label>Tittel:    </label><input id="title" name="title" required maxlength="30"><br>
-			<label>Antall minutter:    </label><input id="min" min="0.01" type="number" name="time" step="any" required>
+			<label>Title:    </label><input id="title" name="title" required maxlength="30"><br>
+			<label>Number of minutes:    </label><input id="min" min="0.01" type="number" name="time" step="any" required>
 			
-			<label class="container"><label>Stress modus:    </label><input type="checkbox" name="tick"><span class="checkmark"></span></label>
-			<button disabled title="Fyll inn inputene">GO!</button>
+			<label class="container"><label>Stress mode:    </label><input type="checkbox" name="tick"><span class="checkmark"></span></label>
+			<button disabled title="Fill in the inputs before proceeding!">GO!</button>
 		</form>
 	</div>
 	
@@ -168,23 +168,26 @@
 			h1El[2].innerHTML = convertToTime(now);
 			
 			
-			//Sjekker om bartime er mindre eller lik 0 
+			//Sjekker om bartime er mindre eller lik 0
 			if(barTime <= 0) {
 				
 				//Endrer teksten sin farge
 				h1El[2].style.color = "#e00505";
-						
+				
+				//Stopper lyden
+				tictoc.pause();
+				
 				//Spiller av lyden
 				sound.play();
 				
 				//Fjerner baren
 				divEl[3].style.width = 0;
 				
-				//Legger til class flick for å få animasjon
-				h1El[2].className = "flick";
-				
 				//Fjerner web workeren
 				clockWorker.terminate();
+				
+				//Legger til class flick for å få animasjon
+				h1El[2].className = "flick";
 				
 				//Lagrer alle bildene i en temp array
 				var tempImg = document.querySelectorAll("img");
@@ -314,7 +317,7 @@
 			//Sjekker om tiden ikke er pauset
 			if(img[2].getAttribute("src") == "pause.png") {
 			//Fjerner tid
-			time = ((now - 60) < 0) ? 0 : (now - 60);
+			time = ((now - 30) < 0) ? 0 : (now - 30);
 			
 			//Restarter startiden siden tiden endres
 			startTime = date;
