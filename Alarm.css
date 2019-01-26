@@ -73,8 +73,8 @@
 
 	.overlay h1 {
 		text-align: center;
-		font-size: 5vw;
-		padding-top: 6vh;
+		font-size: 8vw;
+   		padding-top: 0.75vh;
 		margin:0;
 		margin-bottom: 0;
 		color: white;
@@ -138,10 +138,10 @@
 	}
 	
 	.cog {
-		position:fixed;
-		height:15vh;
-		top:4.75vh;
-		right:3.75vh;
+		position: fixed;
+		height: 12vh;
+		top: 6.25vh;
+		right: 3.75vh;
 	}
 
 	.cog:hover {

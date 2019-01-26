@@ -11,7 +11,7 @@
 	<div class="setup">
 		<h1>Setup skjerm</h1>
 		<form>
-			<label>Tittel:    </label><input id="title" name="title" required maxlength="17"><br>
+			<label>Tittel:    </label><input id="title" name="title" required maxlength="30"><br>
 			<label>Antall minutter:    </label><input id="min" min="0.01" type="number" name="time" step="any" required>
 			
 			<label class="container"><label>Stress modus:    </label><input type="checkbox" name="tick"><span class="checkmark"></span></label>
@@ -43,12 +43,12 @@
 		var cog = document.getElementsByClassName("cog")[0];
 		
 		//Angir en rekke variabler for tid 
+		var left = 0;
 		var time = 0;
 		var barTime = 0;
 		var startTime = 0;
-		var i = 0;
-		var tick = 0;
-	
+		var date = new Date().getTime();
+		
 		//Lager en web worker for at klokken skal tikke selvom vindu ikke er i fokus
 		if (typeof(clockWorker) == "undefined") {
 			clockWorker = new Worker("worker.js");
@@ -63,9 +63,15 @@
 			//Kjører koden
 			change();
 			
-			//Temp
+			//Sjekker om brukeren ønker tick tock lyd
 			if(urlParams.has("tick")) {
+				
+				//Setter tock til true
 				var tock = true;
+				
+				//Spiller av stresslyden
+				tictoc.play();
+				
 			}
 		
 		}
@@ -77,6 +83,7 @@
 		//Sjekker om inputene har value
 		test();
 		
+		
 		//Sjekker om brukeren trykker på tannhjulet
 		cog.onclick = function() {
 			
@@ -85,9 +92,9 @@
 			
 		}
 		
+		
 		//Lager en funksjon å sjekke om inputene ikke er blanke
 		function test() {
-			
 			
 			//Sjekker om tittelen og tallet ikke er blanke
 			if((input[0].value != "") && (input[1].value != "") && !(/^\s+$/.test(input[0].value))) {
@@ -104,17 +111,21 @@
 			
 		}
 		
+		
 		//Lager en funksjon som kjører når knappen presses
 		function change() {
-				
-			//Setter tiden, bar tiden og start tiden til det brukeren har inputet
+			
+			//Oppdaterer date
+			date = new Date().getTime()
+			
+			//Setter tiden og starttiden til det brukeren har inputet
 			time = Math.round(urlParams.get("time")*60);
-			barTime = time;
-			startTime = time;
+			startTime = date;
 				
 			//Setter tittelen til det brukeren har inputa
-			h1El[1].innerHTML = urlParams.get("title");	
-				
+			h1El[1].innerHTML = urlParams.get("title");		
+			fontSize(h1El[1]);
+			
 			//Displayer klokka, og fjerner startenyen
 			divEl[0].style.display = "none";
 			divEl[1].style.display = "block";
@@ -130,6 +141,7 @@
 			
 		}
 		
+		
 		//Lager en funksjon som gjør at webworkeren kan jobbe i bakgrunnen
 		clockWorker.onmessage = function(e) {
 			
@@ -142,40 +154,27 @@
 		
 		}
 		
+		
 		//Lager en funksjon som endrer tid og progresjons bar
 		function trigger() {
 			
+			//Oppdaterer datoen
+			date = new Date().getTime();
+			
+			//Oppdaterer bartiden
+			barTime = time - (date - startTime)/1000;
+			
 			//Minsker baren
-			divEl[3].style.width = (barTime/startTime)*window.innerWidth + "px";
-			barTime -= 0.01;
-			
-			//Øker tallet for klokke oppdatering
-			i++;
-			
-			//Sjekker om i >= 100 for å oppdatere klokka
-			if(i >= 100) {
-				
-				//Oppdaterer tiden, men verdien kan ikke bli mindre enn 0
-				time = (time - 1) < 0 ? 0 : time - 1;
-				
-				//Reseter i
-				i = 0;	
-				
-				//Sjekker om vil ha tick tock lyd
-				if(tock) {
+			divEl[3].style.width = (barTime/time)*window.innerWidth + "px";
 					
-					//Øker tick
-					tick++;
-					
-				}
-				
-			}
+			//Oppdaterer tiden nå
+			now = Math.round(barTime);
 			
 			//Oppdaterer klokka
-			h1El[2].innerHTML = convertToTime(time);
+			h1El[2].innerHTML = convertToTime(now);
 			
 			//Sjekker om bartime er mindre eller lik 0
-			if(time <= 0) {
+			if(barTime <= 0) {
 				
 				//Endrer teksten sin farge
 				h1El[2].style.color = "#e00505";
@@ -192,7 +191,7 @@
 				//Fjerner web workeren
 				clockWorker.terminate();
 				
-			} else if(barTime <= 30) { //Sjekker ellers om 30 eller mindre sekunder igjen
+			} else if(barTime <= 31) { //Sjekker ellers om 30 eller mindre sekunder igjen
 				
 				//Endrer baren sin farge
 				divEl[3].style.backgroundColor = "#ec1d1d";
@@ -203,7 +202,7 @@
 			}
 			
 			//Sjekker om det har gått 30 sec, og at brukeren ønsker tick tock lyder
-			if((tock) && (time != 0) && (tick >= 30)) {
+			if((tock) && (now != 0) && (now%30 == 0)) {
 			   
 				//Spiller tick tock lyden
 				tictoc.play();
@@ -215,12 +214,24 @@
 			
 		}
 		
+		
 		//Lager en funksjon som tar imot et tall og gjør det om i en tid i formate "mm:ss"
 		function convertToTime(a) {
 			
 			//Returnerer tid stringen
 			return isNaN(a) ? "00:00" : (Math.floor(a/60) > 9 ? Math.floor(a/60) : "0" + Math.floor(a/60) ) + ":" + (a%60 > 9 ? a%60 :  "0" + a%60);
 
+		}
+		
+		function fontSize(element) {
+				
+			var tempL = element.innerHTML.length;
+			
+			if(tempL > 12) {
+				element.style.fontSize = (100/tempL) + "vw";
+				element.style.paddingTop = (tempL/4) + "vh";
+			}
+			
 		}
 		
 		/*Todo*/
