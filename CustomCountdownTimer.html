@@ -213,8 +213,8 @@
 			}
 			
 			
-			//Sjekker om det er now er delig på 30, og at brukeren ønsker tick tock lyder
-			if((tock) && (now != 0) && (now%30 == 0)) {
+			//Sjekker om now er delig på 30, og at brukeren ønsker tick tock lyder, og tiden ikke er stoppet
+			if((tock) && (now != 0) && (now%30 == 0) && (img[2].getAttribute("src") == "pause.png")) {
 			   
 				//Spiller tick tock lyden
 				tictoc.play();
