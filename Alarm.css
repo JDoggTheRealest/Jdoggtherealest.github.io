@@ -1,117 +1,220 @@
 @charset "utf-8";
 /* CSS Document */
 
-		body {
-			max-width: 100vw;
-			max-height: 100vh;
-			margin: 0;
-			font-family: Helvetica, Arial, sans-serif;
-		}
-		
-		button {
-			background: url(buttonback.png);
-			background-size: cover;
-			background-position-x: center;
-			background-position-y: center;
-			color:white;
-			border: #36568F 0.3vh solid;
-			font-size: 2.2vw;
-			width: 45vh;
-    		height: 16.2vh;
-			cursor:pointer;
-			user-select: none;
-			margin-left: 106.5vh;
-			margin-top: 7.4vh;
-		}
-		
-		button:hover {
-			border: #244072 0.5vh solid;
-		}
-		
-		button:active {
-			font-size: 3.5vw;
-			border: #4066AB 0.7vh solid;
-		}
-		
-		button[disabled]:hover {
-			cursor:not-allowed;
-		}
+	body {
+		max-width: 100vw;
+		max-height: 100vh;
+		margin: 0;
+		font-family: Helvetica, Arial, sans-serif;
+	}
 
-		.setup {
-		    width: 157vh;
-			margin:auto;
-		}
-		
-		.setup h1 {
-			font-size: 13vh;
-    		margin-top: 5vh;
-			margin-bottom: 0;
-		}
-		
-		label {
-			font-size: 8vh;
-		}
-		
-		input {
-			font-size: 5vh;
-			margin-top: 12vh;
-			padding: 1vw;
-		}
-		
-		#title {
-			width: 128vh;
-		}
-		
-		#min {
-			width: 26vh;
-		}
-		
-		.main {
-			display:none;
-		}
-		
-		.overlay h1 {
-			text-align: center;
-			font-size: 12vh;
-    		padding-top: 5vh;
-			margin:0;
-			margin-bottom: 0;
-			color: white;
-		}
-		
-		.overlay {
-			background-color: #767070;
-			height: 24.5vh;
-		}
-		
-		#bar {
-			width:100%;
-			background-color: #4372c3;
-    		height: 3.6vh;
-		}
+	button {
+		background: url(buttonback.png);
+		background-size: cover;
+		background-position-x: center;
+		background-position-y: center;
+		color:white;
+		border: #36568F 0.3vh solid;
+		font-size: 2.2vw;
+		width: 45vh;
+		height: 16.2vh;
+		cursor:pointer;
+		user-select: none;
+		margin-left: 106.5vh;
+		margin-top: -1.6vh; 
+	}
 
-		#clock {
-			font-size: 60vh;
-    		margin: 0;
-    		text-align: center;
-			max-width: 100vw;
-		}
+	button:hover {
+		border: #244072 0.5vh solid;
+		opacity: 0.9;
+	}
+
+	button:active {
+		font-size: 3.5vw;
+		border: #4066AB 0.7vh solid;
+	}
+
+	button[disabled]:hover {
+		cursor:not-allowed;
+	}
+
+	.setup {
+		width: 157vh;
+		margin:auto;
+	}
+
+	.setup h1 {
+		font-size: 13vh;
+		margin-top: 5vh;
+		margin-bottom: 0;
+	}
+
+	label {
+		font-size: 8vh;
+	}
+
+	input {
+		font-size: 5vh;
+		margin-top: 12vh;
+		padding: 1vw;
+	}
+
+	#title {
+		width: 128vh;
+	}
+
+	#min {
+		width: 26vh;
+	}
+
+	.main {
+		display:none;
+	}
+
+	.overlay h1 {
+		text-align: center;
+		font-size: 5vw;
+		padding-top: 6vh;
+		margin:0;
+		margin-bottom: 0;
+		color: white;
+	}
 		
-		@keyframes flicker {
-			0% {color: #e00505;}
-  			25% {color: red;}
-			50% {color: #e00505;}
-			75% {color: red;}
-			100% {color: #e00505;}
-		}
+	.overlay {
+		background-color: #767070;
+		height: 24.5vh;
+	}
 		
-		.flick {
-			animation:flicker .8s infinite;
-		}
+	#bar {
+		width:100%;
+		background-color: #4372c3;
+    	height: 3.6vh;
+	}
+
+	#clock {
+		font-size: 60vh;
+    	margin: 0;
+    	text-align: center;
+		max-width: 100vw;
+	}
 		
-		@keyframes colorChange {
-			from {background-color: #4372c3;}
-			to {background-color: #ec1d1d}
-		}
+	@keyframes flicker {
+		0% {color: #e00505;}
+  		25% {color: red;}
+		50% {color: #e00505;}
+		75% {color: red;}
+		100% {color: #e00505;}
+	}
 		
+	.flick {
+			animation:flicker .8s 4;
+	}
+		
+	@keyframes colorChange {
+		from {background-color: #4372c3;}
+		to {background-color: #ec1d1d}
+	}
+		
+	.finish {
+		display:none;
+		position:fixed;
+		width:100vw;
+		height:100vh;
+		background-color:rgba(40,40,40,0.70);
+		top:0;
+		color:white;
+		text-align: center;
+	}
+	
+	.finish h1 {
+		font-size:25.5vh;
+		margin:30vh 0 0 0;
+		text-shadow: 0 0 4px black;
+	}
+
+	.finish p {
+		font-size:4vh;
+		text-shadow: 0 0 3px black;
+	}
+	
+	.cog {
+		position:fixed;
+		height:15vh;
+		top:4.75vh;
+		right:3.75vh;
+	}
+
+	.cog:hover {
+		cursor:pointer;
+		transform: rotate(22.5deg);
+	}
+
 /*CSS Made By Johannes Mørkrid*/
+
+	/* The container */
+	.container {
+		margin-top:9vh;
+		display: block;
+		position: relative;
+		cursor: pointer;
+		-webkit-user-select: none;
+		user-select: none;
+		height: 0;
+		width: 40vw;
+	}
+
+	/* Hide the browser's default checkbox */
+	.container input {
+		 position: absolute;
+		 opacity: 0;
+		 cursor: pointer;
+		 height: 0;
+		 width: 0;
+	}
+
+	/* Create a custom checkbox */
+	.checkmark {
+		border: 1px #a9a9a9fa solid;
+		position: absolute;
+		height: 7vh;
+		width: 7vh;
+		background-color: #eee;
+		margin: 1.5vh 2.5vh;
+	}
+
+	/* On mouse-over, add a grey background color */
+	.container:hover input ~ .checkmark {
+		background-color: #ccc;
+	}
+
+	/* When the checkbox is checked, add a blue background */
+	.container input:checked ~ .checkmark {
+		background-color: #4372c3;
+	}
+
+	/* Create the checkmark/indicator (hidden when not checked) */
+	.checkmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+	}
+
+	/* Show the checkmark when checked */
+	.container input:checked ~ .checkmark:after {
+		display: block;
+	}
+
+	/* Style the checkmark/indicator */
+	.container .checkmark:after {
+		left: 2.3vh;
+		top: 1vh;
+		width: 1.5vh;
+		height: 3vh;
+		border: solid white;
+		border-width: 0 .8vh .8vh 0;
+		-webkit-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
+
+/*Modified Css from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox*/

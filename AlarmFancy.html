@@ -11,10 +11,8 @@
 	<div class="setup">
 		<h1>Setup skjerm</h1>
 		<form>
-			<label>Tittel:    </label><input id="title" name="title" required maxlength="17"><br>
-			<label>Antall minutter:    </label><input id="min" min="0.01" type="number" name="time" step="any" required>
-			
-			<label class="container"><label>Stress modus:    </label><input type="checkbox" name="tick"><span class="checkmark"></span></label>
+			<label>Tittel:    </label><input id="title" name="title" required><br>
+			<label>Antall minutter:    </label><input id="min" type="number" name="time" step="any" required>
 			<button disabled title="Fyll inn inputene">GO!</button>
 		</form>
 	</div>
@@ -26,6 +24,11 @@
 		</div>
 		<div id="bar"></div>
 		<h1 id="clock">01:55</h1>
+	</div>
+	
+	<div class="finish">
+		<h1>Ferdig!</h1>
+		<p>Trykk hvor som helst for å stoppe alarmen.</p>
 	</div>
 	
 	<iframe src="silent.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
@@ -43,12 +46,12 @@
 		var cog = document.getElementsByClassName("cog")[0];
 		
 		//Angir en rekke variabler for tid 
-		var time = 0;
+		var time = -1;
 		var barTime = 0;
 		var startTime = 0;
 		var i = 0;
 		var tick = 0;
-	
+		
 		//Lager en web worker for at klokken skal tikke selvom vindu ikke er i fokus
 		if (typeof(clockWorker) == "undefined") {
 			clockWorker = new Worker("worker.js");
@@ -64,10 +67,8 @@
 			change();
 			
 			//Temp
-			if(urlParams.has("tick")) {
-				var tock = true;
-			}
-		
+			var tock = true;	
+			
 		}
 		
 		//Legger til eventlistner for når brukeren skriver i inputene
@@ -153,7 +154,7 @@
 			i++;
 			
 			//Sjekker om i >= 100 for å oppdatere klokka
-			if(i >= 100) {
+			if((i >= 100) && (time > 0)) {
 				
 				//Oppdaterer tiden, men verdien kan ikke bli mindre enn 0
 				time = (time - 1) < 0 ? 0 : time - 1;
@@ -174,8 +175,8 @@
 			//Oppdaterer klokka
 			h1El[2].innerHTML = convertToTime(time);
 			
-			//Sjekker om bartime er mindre eller lik 0
-			if(time <= 0) {
+			//Sjekker om time er 0
+			if(time == 0) {
 				
 				//Endrer teksten sin farge
 				h1El[2].style.color = "#e00505";
@@ -186,12 +187,12 @@
 				//Fjerner baren
 				divEl[3].style.width = 0;
 				
+				//Displayer ferdig skjermen
+				divEl[4].style.display = "block";
+				
 				//Legger til class flick for å få animasjon
 				h1El[2].className = "flick";
-				
-				//Fjerner web workeren
-				clockWorker.terminate();
-				
+						
 			} else if(barTime <= 30) { //Sjekker ellers om 30 eller mindre sekunder igjen
 				
 				//Endrer baren sin farge
@@ -223,11 +224,15 @@
 
 		}
 		
-		/*Todo*/
-		
-		//Venstrepil "+30s"
-		//Høyrepil "-60s" 
-		//Pause knapp
+		window.onclick = function() {
+			
+			if(time === 0) {
+						
+				//Tar deg hjem
+				window.location.replace(window.location.href.slice(0,window.location.href.indexOf("?")));
+			}	
+			
+		}
 		
 	</script>
 </body>
