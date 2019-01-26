@@ -169,7 +169,7 @@
 			
 			
 			//Sjekker om bartime er mindre eller lik 0
-			if(barTime <= 0) {
+			if((barTime <= 0) && (img[2].getAttribute("src") == "pause.png")) {
 				
 				//Endrer teksten sin farge
 				h1El[2].style.color = "#e00505";
@@ -277,14 +277,18 @@
 		//Sjekker om brukeren trykker på mer tid
 		img[1].onclick = function() {
 			
-			//Sjekker om ikke har pauset
-			if(img[2].getAttribute("src") == "pause.png") {
-				//Legger til ekstra tid
-				time = now + 30;
+			//Oppdaterer datoen
+			date = new Date().getTime();
+			
+			//Legger til ekstra tid
+			time = now + 30;
 
-				//Restarter tiden siden endres
-				startTime = date;
-			}
+			//Restarter tiden siden endres
+			startTime = date;
+			
+			
+			//Oppdaterer klokka
+			trigger();
 			   
 		}
 		
@@ -329,14 +333,17 @@
 		//Sjekker om brukeren vil fjerne tid
 		img[3].onclick = function() {
 			
-			//Sjekker om tiden ikke er pauset
-			if(img[2].getAttribute("src") == "pause.png") {
+			//Oppdaterer datoen
+			date = new Date().getTime();
+			
 			//Fjerner tid
 			time = ((now - 30) < 0) ? 0 : (now - 30);
 			
 			//Restarter startiden siden tiden endres
 			startTime = date;
-			}
+			
+			//Oppdaterer klokka
+			trigger();
 				
 		}
 		
