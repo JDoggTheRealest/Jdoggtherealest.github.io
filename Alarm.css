@@ -142,13 +142,13 @@
 		height: 9vh;
 		top: 30.25vh;
 		right: 1.75vh;
-		opacity: 0.5;
+		opacity: 0.3;
 	}
 
 	.cog:hover {
 		cursor:pointer;
 		transform: rotate(22.5deg);
-		opacity: 0.5;
+		opacity: 0.3;
 	}
 
 	.pause {    
