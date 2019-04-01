@@ -1,0 +1,8 @@
+Lagrer alle de fire inputboksene
+Sjekker om brukeren har trykket på "Beregn knappen"
+Lager en variabel som holder på sumen
+Går gjennom tabellen for alle 4 input og finner ut deres verdi ved å se på grensene
+Legger de 4 verdiene sammen, også ganger hele med 6, blir det samme som å ha ganget hver og en med 6 siden:
+6*a + 6*b + 6*c + 6*d = 6*(a+b+c+d)
+Lagrer p elementet i kalkulatoren
+Skriver ut verdien

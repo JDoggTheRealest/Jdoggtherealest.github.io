@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vindmølle info</title>
+	<style>
+		.blad {
+			position: fixed;
+			top: 157px;
+			left: 770px;
+			transform: rotate(0DEG);
+			transform-origin: 99.5px 115.5px;
+			z-index: 100;
+			width:200px
+		}
+		
+		.stang {
+			position: fixed;
+			top: 279px;
+			left: 862px;
+			width: 15px;
+		}
+		
+		.three {
+			width: 170px;
+			position: fixed;
+			top: 279px;
+			left: 400px;
+			transform-origin: 50% 100%;
+		}
+		
+		body {
+			background-image:url("Filer_Vaar_17/landscape.jpg");
+			background-size:1366px 625px;
+			margin:0;
+			background-repeat: no-repeat;
+		}
+		
+		.beholder {
+			width: 280px;
+			background-color: whitesmoke;
+			border: 2px solid grey;
+			margin: 20px 25px;
+			text-align: center;
+			padding: 0px 10px 20px 10px;
+		}
+		
+		.kalkulator {
+			width: 280px;
+			background-color: whitesmoke;
+			border: 2px solid grey;
+			margin: 25px 25px 0px 25px;
+			text-align: center;
+			padding: 0px 10px 0px 10px;
+		}
+		
+		.kalkulator input {
+			text-align: center;
+			    margin: 1px 0px;
+		}
+		
+		.kalkulator label {
+			display: inline-block;
+    		width: 70px;
+			text-align: left;
+		}
+		
+		.totalt {
+			display: inline-block;
+			width: 180px;
+			text-align: center;
+		}
+		
+	</style>
+</head>
+
+<body> 
+	
+	<div class="beholder">
+		<h3>Simuler ulike vindstyrker!</h3>
+		<p></p>
+		<select>
+			<option value="0">Stille</option>
+			<option value="1">Lett bris</option>
+			<option value="2">Stiv kuling</option>
+		</select>
+	</div>
+		
+	<div class="kalkulator">
+		<h3>Watt kalkulator:</h3>
+		<input type="number" min="0" placeholder="Skriv inn en vindstyrke..." step="0.1">
+		<p>Watt per time:</p>
+	</div>
+	
+	<div class="kalkulator">
+		<h3>Estimert Watt for en dag:</h3>
+		<h5>Oppgi 4 vindstyrker, bruk f.eks. <a target="_blank" href="https://www.yr.no/">yr.no</a></h5>
+		<label>Periode 1</label><input type="number" min="0" placeholder="Vind nr. 1..." step="0.1"><br>
+		<label>Periode 2</label><input type="number" min="0" placeholder="Vind nr. 2..." step="0.1"><br>
+		<label>Periode 3</label><input type="number" min="0" placeholder="Vind nr. 3..." step="0.1"><br>
+		<label>Periode 4</label><input type="number" min="0" placeholder="Vind nr. 4..." step="0.1"><br>
+		<button>Beregn!</button><p class="totalt">Watt produsert</p>
+	</div>
+	
+	<img class="blad" src="Filer_Vaar_17/vindmølleblad.png">
+	<img class="stang" src="Filer_Vaar_17/vindmøllestang.png">
+	<img class="three" src="Filer_Vaar_17/tree.png">
+	   
+	<script>
+		
+		//Legger til en eventlistner på select elementet
+		var select = document.getElementsByTagName("select")[0];
+		select.addEventListener("change",alter);
+		
+		//Lagrer alle bilde elementene i en array
+		var img = document.getElementsByTagName("img");
+		
+		//Lagrer noen variabler for animasjonen
+		var rot = 0;
+		var waving = 0;
+		var dir = 1;
+		
+		//Lager en array med info om bøynings avgrensningen, farten til vinden og teksten som beskriver påvirkningen
+		var bendLim = [
+			[0,1],
+			[1,2],
+			[2,4.5]
+		];
+		var speed = [
+			[0,0.2],
+			[3.4,5.4],
+			[13.9,17.1]
+		];
+		var text = [
+			"Røyken stiger rett opp.",
+			"Løv og småkvist rører seg, lette flagg strekkes.",
+			"Hele trær rører seg, tungt å gå mot vinden."
+		];
+		
+		//Lagrer en index for hvilken vind
+		var idx = 0;
+		
+		//Lagrer en tilfeldig avbøyingsgrense
+		var curLim = randomFrom(bendLim[idx][0], bendLim[idx][1]);
+		
+		//Lagrer lydfilen til vinden
+		var audio = new Audio();
+		audio.src = "Filer_Vaar_17/sommervind.mp3";
+		
+		//Lagrer p elementene og endrer innholdet til den første
+		var textEl = document.getElementsByTagName("p");
+		textEl[0].innerHTML = text[idx];
+		
+		//Lagrer inputboks elementet og gir den eventlistners
+		var input = document.getElementsByTagName("input");
+		
+		//Gir alle inputene en secretId og en eventlistener som sjekker om brukeren har endret innholdet
+		for(var i = 0; i < input.length; i++) {
+			
+			input[i].addEventListener("change",updateValue);
+			input[i].secretId = i;
+			
+		}
+		
+		//Legger til en eventlistener kun for den første inputboksen, som sjekker om en bruker skriver noe i boksen
+		input[0].addEventListener("input",updatePower);
+		
+		//Lagrer det første button elementet
+		var button = document.getElementsByTagName("button")[0];
+		
+		//Legger til en eventlistener som sjekker om brukeren har trykket inn knappen
+		button.addEventListener("click", calculate);
+		
+		//Lagrer en tabell med hvor mye Watt en får per vindstyrke
+		var powers = [
+			[0,1.5,0],
+			[1.6,3.3,2],
+			[3.4,5.4,10],
+			[5.5,7.9,60],
+			[8,10.7,150],
+			[10.8,13.8,400],
+			[13.9,15,500]
+		]
+		
+		
+		/*Funksjoner:*/
+		
+		
+		//Lager en funksjon som returnerer et tilfeldig tall mellom to grenseverdier
+		function randomFrom(a,b) {
+			return Math.random()*(b-a) + a;
+		}
+		
+		
+		//Lager en funksjon som endrer ting når brukeren velger en ny vindstyrke
+		function alter(e) {
+			
+			//Endrer vindstyrken
+			idx = e.target.value;	
+			
+			//Reseter posisjonen til treet og vindmøllen
+			rot = 0;
+			waving = 0;
+			
+			//Oppdaterer teksten som beskriver påvirkningen til vinden
+			textEl[0].innerHTML = text[idx];
+			
+			//Sjekker om indexen er over 0
+			if(idx > 0) {
+				
+				//Endrer volumet basert på vindstyrken, også spiller den
+				audio.volume = idx/2;
+				audio.play();
+				
+			} else {
+				
+				//Ellers pauses lyden og start tiden resetes
+				audio.pause();
+				audio.currentTime = 0;
+				
+			}
+		}
+		
+		
+		//Lager en funksjon for animasjonene
+		function animate() {
+			
+			//Endrer rotasjon til vindmøllen og "bøyningen" til treet
+			rot += randomFrom(speed[idx][0],speed[idx][1]);
+			waving += dir*randomFrom(speed[idx][0],speed[idx][1])*0.003;
+			
+			//Sjekker om treet har bøyd for langt
+			if(waving*dir > curLim) {
+				//Endrer rettningen og velger tilfeldig en ny bøynings grense basert på vindstyrken
+				dir *= -1;
+				curLim = randomFrom(bendLim[idx][0], bendLim[idx][1]);
+			}
+			
+			//Oppdaterer bildene
+			img[0].style.transform = "rotate("+ rot +"DEG)";
+			img[2].style.transform = "skew("+ waving +"deg, 0deg)";
+			
+		}
+		
+		//Kjører funksjonene 60 ganger per sekund
+		setInterval(animate,1000/60);
+		
+		
+		//Lager en funksjon for å regne på Watt som en vindstyrke produserer
+		function getValue(e) {
+						
+			//Sjekker om argumentet er et object
+			if(typeof(e) == "object") {
+				
+				//Lagrer temp tallet i inputet og setter det til 1 desimal
+				var num = Number(e.target.value).toFixed(1);
+				
+			} else {
+				
+				//Ellers lagres tallet som argumentet som har blitt sendt
+				var num = e;
+				
+			}
+				
+			//Lagrer verdien som senere skal returneres
+			var value = 0;
+			
+			//Sjekker om inputet er mindre eller lik 15m/s
+			if(num <= 15) {
+				
+				//Kjører gjennom tabelen med verdier og grenser og sjekker om inputet er innenfor grensene
+				for(var i = 0; i < powers.length; i++) {
+					
+					if((num >= powers[i][0]) && (num <= powers[i][1])) {
+					
+						//Endrer verdien som skal returneres
+						value = powers[i][2];
+						
+					}	   
+				}   
+			}
+			
+			//Returnerer verdien
+			return value;
+			
+		}
+		
+		
+		//Lager en funksjon for å oppdatere Watt en vind, mens brukeren inputer
+		function updatePower(e) {
+			
+			//Lagrer tallet, setter det til 1 desimal, oppdaterer inputet og kjører calculate funksjonen.
+			var num = Number(e.target.value).toFixed(1);
+			
+			//Oppdaterer teksten
+			textEl[1].innerHTML = "En vind på " + num +  " m/s, gir " + getValue(e) + " Watt per time";
+			
+		}
+		
+		
+		//Lager en funksjon som oppdaterer det brukeren har skrevet om de ufokuserer inputboksen
+		function updateValue(e) {
+			
+			//Lagrer tallet, setter det til 1 desimal, oppdaterer inputet og kjører calculate funksjonen.
+			var num = Number(e.target.value).toFixed(1);
+			e.target.value = num;
+			
+			if(e.target.secretId = 0) {
+				
+				//Oppdaterer teksten
+				textEl[1].innerHTML = "En vind på " + num +  " m/s, gir " + getValue(e) + " Watt per time";
+				
+			}
+			
+		}
+		
+		//Lager en funksjon for å regne ut hvor mange Watt produseres for en dag basert på 4 oppgitte vindstyrker
+		function calculate(e) {
+			
+			//Lager en boolean for å sjekke om brukeren har oppgitt 4 verdier, og en variabel for å holde på sumen
+			var test = true;
+			var sum = 0;
+			
+			//Kjører gjennom de 4 inputene
+			for(var i = 1; i < 5; i++) {
+				
+				//Sjekker om det er blitt oppgitt en verdi
+				if(input[i].value == "") {
+					
+					//Om dette ikke stemmes settes booleanen til false
+					test = false;
+					
+				}
+				
+				//Legger samtidig sammen alle verdiene ved bruk av funksjonen getValue
+				sum += getValue(input[i].value);
+				
+			}
+			
+			//Sjekker om booleanen er true
+			if(test) {
+				
+				//Skriver ut summen om alle 4 vindstykrkene er oppgitt
+				textEl[2].innerHTML = "Ca " + sum*6 + " Watt!";
+				
+			} else {
+				
+				//Ellers kommer det opp en "feilvarsel"
+				textEl[2].innerHTML = "Fyll inn alle!";
+				
+			}
+			
+		}
+		
+	</script>
+</body>
+</html>
