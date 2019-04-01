@@ -527,11 +527,17 @@
      *
      * @return {Object}
      */
+	
+	var select = document.getElementsByTagName("select")[0];
+	
     Visualizer.prototype.bindEvents = function () {
         var _this = this;
 
         document.addEventListener('click', function (e) {
             if (e.target === _this.canvas) {
+				console.log(e);
+				console.log(_this);
+				console.log(document);
                 e.stopPropagation();
                 if (!_this.isPlaying) {
                     return (_this.ctx.state === 'suspended') ? _this.playSound() : _this.loadSound();
@@ -769,24 +775,31 @@
         getInstance: getInstance
     };
 })();
+
+var clicked = false;
 		
 document.addEventListener('click', function () {
-    'use strict';
+	
+	if(!clicked) {
+		'use strict';
 
-    AUDIO.VISUALIZER.getInstance({
-        autoplay: false,
-        loop: true,
-        audio: 'myAudio',
-        canvas: 'myCanvas',
-        style: 'lounge',
-        barWidth: 2,
-        barHeight: 2,
-        barSpacing: 7,
-        barColor: '#cafdff',
-        shadowBlur: 20,
-        shadowColor: '#ffffff',
-        font: ['12px', 'Helvetica']
-    });
+		AUDIO.VISUALIZER.getInstance({
+			autoplay: false,
+			loop: true,
+			audio: 'myAudio',
+			canvas: 'myCanvas',
+			style: 'lounge',
+			barWidth: 2,
+			barHeight: 2,
+			barSpacing: 7,
+			barColor: '#cafdff',
+			shadowBlur: 20,
+			shadowColor: '#ffffff',
+			font: ['12px', 'Helvetica']
+		});
+		clicked = true;
+	}
+	
 }, false);
 
 	</script>
