@@ -533,18 +533,14 @@
     Visualizer.prototype.bindEvents = function () {
         var _this = this;
 
-        document.addEventListener('click', function (e) {
-            if (e.target === _this.canvas) {
-				console.log(e);
-				console.log(_this);
-				console.log(document);
-                e.stopPropagation();
+       	select.addEventListener('change', function (e) {
+  
                 if (!_this.isPlaying) {
                     return (_this.ctx.state === 'suspended') ? _this.playSound() : _this.loadSound();
                 } else {
                     return _this.pauseSound();
                 }
-            }
+            
         });
 
         if (_this.autoplay) {
