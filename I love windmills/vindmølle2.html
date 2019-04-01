@@ -438,6 +438,7 @@
     Visualizer.prototype.setContext = function () {
         try {
             window.AudioContext = window.AudioContext || window.webkitAudioContext;
+			console.log(window.AudioContext);
             this.ctx = new window.AudioContext();
             return this;
         } catch (e) {
