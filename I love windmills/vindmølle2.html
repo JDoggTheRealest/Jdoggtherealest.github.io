@@ -735,7 +735,7 @@
 
         return function () {
             visualizer
-                //.setContext()
+                .setContext()
                 .setAnalyser()
                 .setFrequencyData()
                 .setBufferSourceNode()
@@ -769,8 +769,8 @@
         getInstance: getInstance
     };
 })();
-
-document.addEventListener('DOMContentLoaded', function () {
+		
+document.addEventListener('click', function () {
     'use strict';
 
     AUDIO.VISUALIZER.getInstance({
